@@ -11,12 +11,15 @@
     "dev:admin": "pnpm --filter @bessege/admin dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "pnpm --recursive --parallel typecheck",
-    "test": "pnpm --recursive test"
+    "typecheck": "pnpm --recursive --parallel typecheck && tsc --project docker",
+    "test": "pnpm --recursive test",
+    "test:docker": "vitest run --config docker/vitest.config.ts"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^1.17.0",
+    "@types/node": "catalog:",
     "eslint": "^10.13.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

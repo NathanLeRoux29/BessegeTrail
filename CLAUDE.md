@@ -56,8 +56,11 @@ Node 24 (`.nvmrc`) et pnpm 12 (champ `packageManager`). Depuis la racine :
 | `pnpm lint` / `pnpm lint:fix` | ESLint sur tout le dépôt (mise en forme comprise, pas de Prettier) |
 | `pnpm typecheck` | `nuxt typecheck` sur les deux apps (le layer partagé est inclus) |
 | `pnpm test` | Vitest dans les trois paquets |
+| `pnpm test:docker` | Construit les images Docker et vérifie DEP-01 et AUT-19 (lent, Docker requis) |
+| `docker build --file docker/app.Dockerfile --build-arg APP=site --tag bessege/site .` | Construit l'image d'une app (`APP=site` ou `admin`) |
 
-Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`.
+Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
+`pnpm test:docker` si `docker/`, une dépendance ou la configuration d'une app change.
 
 - Versions communes dans le `catalog` de `pnpm-workspace.yaml` (`"nuxt": "catalog:"`).
 - Une dépendance qui doit exécuter un script d'installation s'ajoute à
@@ -65,6 +68,10 @@ Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`.
 - TypeScript reste en 6.x tant que `vue-tsc` ne prend pas en charge TypeScript 7.
 - Tests d'intégration d'une app : `@nuxt/test-utils/e2e` (`setup` construit et
   démarre l'app). Tests unitaires du layer : Vitest seul.
+
+- Images Docker : un seul `docker/app.Dockerfile` paramétré par `APP`, construit
+  depuis la racine. L'image finale ne contient que `.output`, tourne avec
+  l'utilisateur `node` et a un healthcheck `wget` sur `/api/health`.
 
 Prévues plus tard : `docker compose up` (#3), `pnpm test:e2e` (#4),
 `pnpm content:pull` et `pnpm content:reset` (#74).

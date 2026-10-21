@@ -30,7 +30,15 @@ pnpm dev:site     # http://localhost:3000
 pnpm dev:admin    # http://localhost:3001
 ```
 
-Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test`.
+Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test`, et
+`pnpm test:docker` pour les images Docker.
+
+Image Docker d'une app (`APP=site` ou `admin`), depuis la racine :
+
+```bash
+docker build --file docker/app.Dockerfile --build-arg APP=site --tag bessege/site .
+docker run --rm -p 3000:3000 bessege/site
+```
 
 ## Documentation
 

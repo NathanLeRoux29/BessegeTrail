@@ -1,0 +1,15 @@
+# Seuls les fichiers nécessaires à la construction entrent dans le contexte Docker.
+**/node_modules
+**/.nuxt
+**/.output
+**/.data
+**/coverage
+**/test-results
+**/playwright-report
+.git
+.github
+.claude
+docs
+.env
+.env.*
+*.log
