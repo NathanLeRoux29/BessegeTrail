@@ -123,4 +123,7 @@ push ──▶ dev ──PR──▶ preprod ──PR──▶ main
 
 - Trois templates : fonctionnalité, bug, tâche technique (`.github/ISSUE_TEMPLATE/`).
 - Pour transformer une spec en issues, utiliser le skill `creer-issues-depuis-spec`.
+- Pour traiter une issue, utiliser le skill `traiter-issue`.
+- `gh issue view N` échoue sur ce dépôt (avertissement GitHub) : toujours passer
+  `--json title,body,…`.
 - Labels : `type:feature`, `type:bug`, `type:tech`, `domaine:*`, `P1`, `P2`.
