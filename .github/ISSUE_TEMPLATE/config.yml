@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Spécifications du projet
+    url: https://github.com/NathanLeRoux29/BessegeTrail/tree/main/docs/specs
+    about: Les critères d'acceptation de chaque domaine, à citer dans les issues.

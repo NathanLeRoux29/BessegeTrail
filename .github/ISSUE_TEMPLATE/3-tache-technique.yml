@@ -1,0 +1,125 @@
+name: 🔧 Tâche technique
+description: Socle, outillage, CI/CD, déploiement, sécurité ou refactorisation, sans changement visible pour l'utilisateur.
+title: "[infra] "
+labels: ["type:tech"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Une issue = un livrable vérifiable, idéalement réalisable en une journée.
+        Le titre commence par le domaine entre crochets : `[infra]`, `[contenu]`, `[auth]`, `[site]`, `[admin]`, `[theme]`.
+
+  - type: dropdown
+    id: domaine
+    attributes:
+      label: Domaine
+      options:
+        - Infra et CI/CD
+        - Contenu
+        - Authentification et sécurité
+        - Site public
+        - Back-office
+        - Thème
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priorite
+    attributes:
+      label: Priorité
+      description: "P1 : indispensable à la mise en ligne du 1er janvier 2027. P2 : si le temps le permet."
+      options:
+        - P1
+        - P2
+    validations:
+      required: true
+
+  - type: input
+    id: spec
+    attributes:
+      label: Spec
+      description: Fichier de spec de référence, ou « Aucune ».
+      placeholder: docs/specs/09-deploiement-ci-cd.md
+    validations:
+      required: true
+
+  - type: input
+    id: criteres-ids
+    attributes:
+      label: Critères couverts
+      description: Identifiants des critères d'acceptation traités, ou « Aucun ».
+      placeholder: DEP-06, DEP-07
+    validations:
+      required: true
+
+  - type: textarea
+    id: objectif
+    attributes:
+      label: Objectif
+      description: Pourquoi cette tâche, ce qu'elle débloque.
+    validations:
+      required: true
+
+  - type: textarea
+    id: travail
+    attributes:
+      label: Travail à faire
+      value: |
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: criteres
+    attributes:
+      label: Critères d'acceptation
+      description: Une case par critère, vérifiable automatiquement si possible.
+      value: |
+        - [ ] **XXX-00** —
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Vérification
+      description: Le test, le check de CI ou la commande qui prouve que c'est fait.
+      placeholder: |
+        - Test : …
+        - Check CI : …
+    validations:
+      required: true
+
+  - type: textarea
+    id: impacts
+    attributes:
+      label: Impacts
+      description: Sécurité, déploiement, migration de contenu, secrets à configurer… ou « Aucun ».
+      value: Aucun
+
+  - type: textarea
+    id: dependances
+    attributes:
+      label: Dépendances
+      description: Issues à terminer avant celle-ci (`#12`), ou « Aucune ».
+      value: Aucune
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tdd
+    attributes:
+      label: Checklist TDD
+      options:
+        - label: Test ou vérification automatisée écrit avant la mise en place (sinon, justification dans l'issue)
+        - label: Vérification au vert
+        - label: Refactorisation avec la vérification au vert
+
+  - type: checkboxes
+    id: fini
+    attributes:
+      label: Définition de « fini »
+      options:
+        - label: Lint, types et tests au vert dans la CI
+        - label: Documentation à jour (README, docs/exploitation.md ou CLAUDE.md)
+        - label: Aucun secret dans le code ni dans les logs

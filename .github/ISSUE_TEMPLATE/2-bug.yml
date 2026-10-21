@@ -1,0 +1,111 @@
+name: 🐛 Bug
+description: Un comportement qui ne correspond pas à la spec ou qui casse quelque chose.
+title: "[site] "
+labels: ["type:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Décrivez ce qui se passe le plus précisément possible. Une capture d'écran aide beaucoup.
+        Le titre commence par le domaine entre crochets : `[site]`, `[admin]`, `[contenu]`, `[auth]`, `[theme]`, `[infra]`.
+
+  - type: dropdown
+    id: domaine
+    attributes:
+      label: Domaine
+      options:
+        - Site public
+        - Back-office
+        - Contenu
+        - Authentification et sécurité
+        - Thème
+        - Infra et CI/CD
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environnement
+    attributes:
+      label: Environnement
+      options:
+        - Production
+        - Préprod
+        - Local
+    validations:
+      required: true
+
+  - type: dropdown
+    id: gravite
+    attributes:
+      label: Gravité
+      description: "Bloquant : le site ou l'inscription ne fonctionne plus. Majeur : une fonctionnalité est cassée. Mineur : gêne ou défaut d'affichage."
+      options:
+        - Bloquant
+        - Majeur
+        - Mineur
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Affichée sur le tableau de bord du back-office.
+      placeholder: v1.4.0
+
+  - type: input
+    id: appareil
+    attributes:
+      label: Appareil et navigateur
+      placeholder: iPhone 13, Safari
+
+  - type: textarea
+    id: etapes
+    attributes:
+      label: Étapes pour reproduire
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: attendu
+    attributes:
+      label: Résultat attendu
+      description: Citez le critère de la spec concerné s'il existe (ex. ACC-22).
+    validations:
+      required: true
+
+  - type: textarea
+    id: obtenu
+    attributes:
+      label: Résultat obtenu
+      description: Ce qui se passe réellement. Collez ici captures d'écran ou messages d'erreur.
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependances
+    attributes:
+      label: Dépendances
+      description: Issues liées (`#12`), ou « Aucune ».
+      value: Aucune
+
+  - type: checkboxes
+    id: tdd
+    attributes:
+      label: Checklist TDD
+      options:
+        - label: Test de non-régression qui reproduit le bug, écrit et rouge avant le correctif
+        - label: Correctif minimal, test au vert
+        - label: Cause identifiée et expliquée dans la PR
+
+  - type: checkboxes
+    id: fini
+    attributes:
+      label: Définition de « fini »
+      options:
+        - label: Lint, types et tests au vert dans la CI
+        - label: Vérifié en préprod avant la mise en production

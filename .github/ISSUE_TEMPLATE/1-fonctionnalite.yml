@@ -1,0 +1,119 @@
+name: ✨ Fonctionnalité
+description: Une fonctionnalité du site ou du back-office, issue d'une spec.
+title: "[site] "
+labels: ["type:feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Une issue = un livrable testable, idéalement réalisable en une journée.
+        Le titre commence par le domaine entre crochets : `[site]`, `[admin]`, `[contenu]`, `[auth]`, `[theme]`, `[infra]`.
+
+  - type: dropdown
+    id: domaine
+    attributes:
+      label: Domaine
+      options:
+        - Site public
+        - Back-office
+        - Contenu
+        - Authentification et sécurité
+        - Thème
+        - Infra et CI/CD
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priorite
+    attributes:
+      label: Priorité
+      description: "P1 : indispensable à la mise en ligne du 1er janvier 2027. P2 : si le temps le permet."
+      options:
+        - P1
+        - P2
+    validations:
+      required: true
+
+  - type: input
+    id: spec
+    attributes:
+      label: Spec
+      description: Fichier de spec de référence.
+      placeholder: docs/specs/02-site-accueil-sections.md
+    validations:
+      required: true
+
+  - type: input
+    id: criteres-ids
+    attributes:
+      label: Critères couverts
+      description: Identifiants des critères d'acceptation de la spec traités par cette issue.
+      placeholder: ACC-21, ACC-22, ACC-23
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User story
+      placeholder: En tant que visiteur, je veux … afin de …
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte
+      description: Ce qu'il faut savoir pour démarrer (maquette, choix techniques, limites).
+      placeholder: "Maquette : docs/maquettes/site/index.html, section Galerie."
+
+  - type: textarea
+    id: criteres
+    attributes:
+      label: Critères d'acceptation
+      description: Une case par critère, avec son identifiant. Chaque critère doit être vérifiable par un test.
+      value: |
+        - [ ] **XXX-00** —
+    validations:
+      required: true
+
+  - type: textarea
+    id: plan-tests
+    attributes:
+      label: Plan de tests
+      description: Les tests à écrire en premier (unitaires, API, bout en bout, accessibilité).
+      placeholder: |
+        - Unitaire : …
+        - E2E (Playwright) : …
+        - Accessibilité (axe-core) : …
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependances
+    attributes:
+      label: Dépendances
+      description: Issues à terminer avant celle-ci (`#12`), ou « Aucune ».
+      value: Aucune
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tdd
+    attributes:
+      label: Checklist TDD
+      options:
+        - label: Tests du plan écrits et rouges avant le code
+        - label: Code minimal pour passer au vert
+        - label: Refactorisation avec les tests au vert
+        - label: Chaque critère couvert a au moins un test qui cite son identifiant
+
+  - type: checkboxes
+    id: fini
+    attributes:
+      label: Définition de « fini »
+      options:
+        - label: Conforme à la maquette, sur mobile et ordinateur
+        - label: Aucune violation axe-core sérieuse ou critique
+        - label: Lint, types et tests au vert dans la CI
+        - label: Spec ou documentation mise à jour si le comportement a changé
