@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maquettes Trail de Bessèges</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root { --primary: #F5700F; --secondary: #052D1F; --bg: #FAF7F0; --neutral: #E9E2D3; --text: #1F2421; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 16px/1.6 'Inter', system-ui, sans-serif; color: var(--text); background: var(--bg); }
+    header { background: var(--secondary); color: var(--bg); padding: 56px 16px 48px; }
+    .wrap { width: min(100%, 1080px); margin: 0 auto; padding: 0 16px; }
+    header .wrap { padding: 0; }
+    h1, h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; line-height: 1; margin: 0; }
+    h1 { font-size: clamp(2.6rem, 7vw, 4.4rem); }
+    header p { max-width: 680px; margin: 16px 0 0; opacity: .9; }
+    h2 { font-size: 2rem; color: var(--secondary); margin: 48px 0 16px; display: flex; align-items: center; gap: 12px; }
+    h2::before { content: ''; width: 28px; height: 3px; background: var(--primary); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    a.card { display: grid; gap: 6px; padding: 22px; border-radius: 12px; background: #fff; border: 1px solid var(--neutral); text-decoration: none; color: inherit; transition: transform .15s, box-shadow .15s, border-color .15s; }
+    a.card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(5, 45, 31, .1); border-color: var(--secondary); }
+    a.card strong { font-size: 1.1rem; color: var(--secondary); }
+    a.card span { font-size: .92rem; color: #4A514D; }
+    .tag { justify-self: start; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: var(--neutral); color: var(--secondary); }
+    .notes { background: #fff; border: 1px solid var(--neutral); border-radius: 12px; padding: 8px 24px 20px; }
+    .notes li { margin: 8px 0; }
+    .palette { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .swatch { display: flex; align-items: center; gap: 10px; padding: 8px 12px 8px 8px; background: #fff; border: 1px solid var(--neutral); border-radius: 10px; font-size: .85rem; }
+    .swatch i { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .1); }
+    .fonts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .font-card { background: #fff; border: 1px solid var(--neutral); border-radius: 12px; padding: 20px; }
+    .font-card .sample-title { font: 800 2.4rem/1 'Barlow Condensed', sans-serif; text-transform: uppercase; color: var(--secondary); }
+    .font-card .sample-text { font-size: 1.05rem; }
+    button.reset { margin-top: 12px; font: 600 .9rem 'Inter', sans-serif; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--secondary); background: transparent; color: var(--secondary); cursor: pointer; }
+    footer { padding: 48px 0; font-size: .85rem; color: #4A514D; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Maquettes, Trail de Bessèges</h1>
+      <p>Maquettes interactives du site public et du back-office (phase 3). Le contenu est fictif. Les modifications faites dans le back-office sont conservées dans votre navigateur : publiez une page, puis ouvrez le site pour voir le résultat.</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <h2>Site public</h2>
+    <div class="grid">
+      <a class="card" href="site/index.html"><span class="tag">Spec 01, 02</span><strong>Page d'accueil</strong><span>Bannière et compte à rebours, chiffres clés, présentation, 5 cartes d'épreuves, galerie (cliquez une photo), bénévoles, partenaires qui défilent, contact.</span></a>
+      <a class="card" href="site/infos-pratiques.html"><span class="tag">Spec 10</span><strong>Infos pratiques</strong><span>Page dédiée : informations sur place (accès, dossards, parking, règlement) et questions fréquentes.</span></a>
+      <a class="card" href="site/epreuve.html?epreuve=trail-40"><span class="tag">Spec 03</span><strong>Page d'une épreuve</strong><span>Chiffres clés, parcours, tracé, profil, inscription, GPX. Le trail 13 km n'a pas de lien d'inscription : le bouton est remplacé par un message.</span></a>
+      <a class="card" href="site/page-legale.html?page=mentions-legales"><span class="tag">Spec 01</span><strong>Page légale</strong><span>Mentions légales et politique de confidentialité, texte modifiable.</span></a>
+    </div>
+
+    <h2>Back-office</h2>
+    <div class="grid">
+      <a class="card" href="admin/connexion.html"><span class="tag">Spec 08</span><strong>Connexion</strong><span>Message d'échec identique quel que soit le compte, blocage après 5 tentatives.</span></a>
+      <a class="card" href="admin/tableau-de-bord.html"><span class="tag">Spec 07</span><strong>Tableau de bord</strong><span>État du site, liste « À faire », accès aux pages, statistiques de fréquentation (survolez le graphique, ou utilisez les flèches du clavier).</span></a>
+      <a class="card" href="admin/editeur.html?page=accueil"><span class="tag">Spec 05, 06</span><strong>Éditeur : accueil</strong><span>Aperçu à gauche, formulaire à droite. Modifiez un texte, masquez une section, ajoutez un partenaire, remplacez une image, puis enregistrez et publiez.</span></a>
+      <a class="card" href="admin/editeur.html?page=infos"><span class="tag">Spec 06, 10</span><strong>Éditeur : infos pratiques</strong><span>En-tête de la page, blocs d'information, règlement PDF, questions fréquentes.</span></a>
+      <a class="card" href="admin/editeur.html?page=epreuve&amp;slug=trail-40"><span class="tag">Spec 03, 06</span><strong>Éditeur : épreuve</strong><span>Informations, parcours, fichiers GPX, liens d'inscription et de résultats, visibilité de l'épreuve.</span></a>
+      <a class="card" href="admin/editeur.html?page=communs"><span class="tag">Spec 01, 06</span><strong>Éditeur : éléments communs</strong><span>Paramètres généraux (date du départ, e-mail, réseaux, référencement), header et menu, footer.</span></a>
+    </div>
+
+    <h2>Identité visuelle</h2>
+    <div class="palette" aria-label="Palette">
+      <div class="swatch"><i style="background:#F5700F"></i>Primaire #F5700F</div>
+      <div class="swatch"><i style="background:#052D1F"></i>Secondaire #052D1F</div>
+      <div class="swatch"><i style="background:#FAF7F0"></i>Fond #FAF7F0</div>
+      <div class="swatch"><i style="background:#E9E2D3"></i>Neutre #E9E2D3</div>
+      <div class="swatch"><i style="background:#1F2421"></i>Texte #1F2421</div>
+    </div>
+    <div class="fonts" style="margin-top:16px">
+      <div class="font-card"><div class="sample-title">Barlow Condensed</div><p class="sample-text">Titres, chiffres et boutons, en majuscules. Sportive et compacte, dans l'esprit des titres des Templiers et du Trail du Bout du Monde.</p></div>
+      <div class="font-card"><div style="font-weight:700;font-size:1.6rem;color:var(--secondary)">Inter</div><p class="sample-text">Texte courant et back-office. Très lisible à petite taille, utilisée par le Trail du Bout du Monde.</p></div>
+    </div>
+
+    <h2>À savoir</h2>
+    <div class="notes">
+      <ul>
+        <li>Les visuels sont des paysages générés en attendant les vraies photos. Les partenaires sont fictifs.</li>
+        <li>Les textes mis en forme utilisent ici des symboles simples (<code>**gras**</code>, <code>- liste</code>). L'application utilisera un éditeur visuel sans symboles.</li>
+        <li>Les boutons d'inscription, de résultats et de téléchargement ne mènent nulle part.</li>
+        <li>Le back-office est conçu pour un écran d'ordinateur d'au moins 1 280 px de large.</li>
+      </ul>
+      <button class="reset" type="button" id="reset">Réinitialiser la démo</button>
+    </div>
+  </main>
+  <footer class="wrap">Phase 3 · maquettes · octobre 2026</footer>
+  <script src="assets/js/demo-data.js"></script>
+  <script>
+    document.getElementById('reset').addEventListener('click', (e) => {
+      DemoStore.reset();
+      e.currentTarget.textContent = 'Démo réinitialisée ✔';
+    });
+  </script>
+</body>
+</html>

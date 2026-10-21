@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tableau de bord · Back-office</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="mock-note" role="note">Maquette : statistiques simulées · <a href="../index.html">Retour au sommaire</a></div>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="page dash-grid">
+        <div class="page-head">
+          <div><h1 id="greeting">Bonjour</h1><p class="muted" id="countdown"></p></div>
+          <a class="btn" href="../site/index.html" target="_blank" rel="noopener">Voir le site<span class="visually-hidden"> (nouvel onglet)</span></a>
+        </div>
+
+        <section aria-labelledby="t-status">
+          <div class="page-head" style="margin-bottom:12px;align-items:center">
+            <h2 id="t-status">État du site</h2>
+            <button class="btn btn-sm" id="btn-check" type="button">Vérifier maintenant</button>
+          </div>
+          <div class="status-row" id="status-row" aria-live="polite"></div>
+        </section>
+
+        <section class="dash-grid">
+          <div class="card" aria-labelledby="t-todo">
+            <div class="card-head"><h2 id="t-todo">À faire <span class="badge badge-warn" id="todo-count" hidden></span></h2></div>
+            <div id="todo"></div>
+          </div>
+          <div class="card" aria-labelledby="t-pages">
+            <div class="card-head"><h2 id="t-pages">Modifier une page</h2></div>
+            <div class="page-tiles" id="page-tiles"></div>
+          </div>
+        </section>
+
+        <section class="dash-grid" aria-labelledby="t-stats">
+          <div class="page-head" style="margin-bottom:0;align-items:center">
+            <div><h2 id="t-stats">Fréquentation</h2><p class="muted" style="font-size:.85rem">Mesure sans cookie, <span id="period-label">sur les 30 derniers jours</span></p></div>
+            <div class="filters">
+              <div class="seg" role="group" aria-label="Période">
+                <button type="button" data-period="7" aria-pressed="false">7 jours</button>
+                <button type="button" data-period="30" aria-pressed="true">30 jours</button>
+                <button type="button" data-period="90" aria-pressed="false">Depuis le début</button>
+              </div>
+            </div>
+          </div>
+          <div class="tiles" id="tiles"></div>
+          <div class="card chart-card">
+            <div class="card-head">
+              <div><h2>Visiteurs par jour</h2><p>Le pic correspond à l'ouverture des inscriptions</p></div>
+              <button class="btn btn-sm" id="btn-table" type="button" aria-pressed="false" aria-controls="chart-table-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></svg>Voir le tableau</button>
+            </div>
+            <div class="chart-wrap" id="chart"></div>
+            <div id="chart-table-wrap" class="table-scroll" hidden><div id="chart-table"></div></div>
+          </div>
+          <div class="bars-grid">
+            <div class="card"><div class="card-head"><h2>Clics « S'inscrire » par épreuve</h2></div><ul class="bar-list" id="bars-races"></ul></div>
+            <div class="card"><div class="card-head"><h2>Pages les plus vues</h2></div><ul class="bar-list" id="bars-pages"></ul></div>
+            <div class="card"><div class="card-head"><h2>D'où viennent les visiteurs</h2></div><ul class="bar-list" id="bars-sources"></ul></div>
+            <div class="card"><div class="card-head"><h2>Appareils</h2></div><ul class="bar-list" id="bars-devices"></ul></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/js/demo-data.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

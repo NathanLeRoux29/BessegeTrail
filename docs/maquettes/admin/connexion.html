@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connexion · Back-office</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="mock-note" role="note">Maquette : n'importe quel e-mail et mot de passe fonctionnent. Mot de passe « erreur » pour voir le message d'échec. · <a href="../index.html">Retour au sommaire</a></div>
+  <div class="login">
+    <div class="login-visual" aria-hidden="true">
+      <div><h2>Trail de Bessèges</h2><p>Espace de gestion du site, réservé aux organisateurs.</p></div>
+    </div>
+    <main class="login-form-wrap">
+      <div class="login-card">
+        <img class="logo" src="../assets/img/logo.svg" alt="">
+        <h1>Connexion</h1>
+        <p>Connectez-vous pour modifier le site du Trail de Bessèges.</p>
+        <div id="alert" role="alert"></div>
+        <form id="login" novalidate>
+          <div class="field">
+            <label for="email">Adresse e-mail</label>
+            <input class="input" id="email" name="email" type="email" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Mot de passe</label>
+            <div class="password-wrap">
+              <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+              <button class="btn btn-sm btn-ghost" type="button" id="toggle-pw" aria-pressed="false">Afficher</button>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%;min-height:44px;margin-top:8px">Se connecter</button>
+        </form>
+        <p class="muted" style="font-size:.85rem;margin-top:24px">Mot de passe oublié ou pas encore de compte ? Contactez le responsable technique du site, qui vous enverra un mot de passe temporaire.</p>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function () {
+      'use strict';
+      const form = document.getElementById('login'), alertBox = document.getElementById('alert');
+      let failures = 0;
+      const show = (cls, text) => {
+        alertBox.innerHTML = `<div class="alert ${cls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17v.5"/></svg><span></span></div>`;
+        alertBox.querySelector('span').textContent = text;
+      };
+      document.getElementById('toggle-pw').addEventListener('click', (e) => {
+        const pw = document.getElementById('password'), visible = pw.type === 'text';
+        pw.type = visible ? 'password' : 'text';
+        e.currentTarget.textContent = visible ? 'Afficher' : 'Masquer';
+        e.currentTarget.setAttribute('aria-pressed', String(!visible));
+      });
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = form.email.value.trim(), pw = form.password.value;
+        if (failures >= 5) return show('alert-danger', 'Trop de tentatives. Réessayez dans 15 minutes.');
+        if (!email || !pw) return show('alert-danger', 'Renseignez votre adresse e-mail et votre mot de passe.');
+        if (pw === 'erreur' || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          failures++;
+          return show('alert-danger', failures >= 5 ? 'Trop de tentatives. Réessayez dans 15 minutes.' : 'E-mail ou mot de passe incorrect.');
+        }
+        const name = email.split('@')[0].split(/[._-]/)[0];
+        try { sessionStorage.setItem('maquette.user', name.charAt(0).toUpperCase() + name.slice(1)); } catch (err) { /* stockage indisponible */ }
+        location.href = 'tableau-de-bord.html';
+      });
+    })();
+  </script>
+</body>
+</html>

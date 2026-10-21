@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Éditeur · Back-office</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="editor-page">
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main editor">
+      <header class="editor-bar">
+        <div>
+          <span class="muted" id="page-kind" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em"></span>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <h1 id="page-title"></h1>
+            <span id="status" class="badge badge-ok" role="status">Publié</span>
+          </div>
+          <span class="meta" id="meta"></span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost" id="btn-cancel" type="button" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>Annuler les modifications</button>
+          <button class="btn" id="btn-save" type="button" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l5 5v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M7 3v6h8M7 21v-7h10v7"/></svg><span id="save-label">Enregistrer le brouillon</span></button>
+          <button class="btn btn-accent" id="btn-publish" type="button" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>Publier</button>
+        </div>
+      </header>
+      <div class="editor-body">
+        <section class="preview-pane" aria-label="Aperçu">
+          <div class="preview-toolbar">
+            <div class="seg" role="group" aria-label="Taille de l'aperçu">
+              <button type="button" data-device="desktop" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Ordinateur</button>
+              <button type="button" data-device="mobile" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Mobile</button>
+            </div>
+            <span class="hint">Cliquez sur une partie de l'aperçu pour la modifier.</span>
+            <span class="spacer"></span>
+            <a class="btn btn-sm" id="live-link" href="#" target="_blank" rel="noopener">Voir la page en ligne<span class="visually-hidden"> (nouvel onglet)</span></a>
+          </div>
+          <div class="preview-stage">
+            <div class="preview-frame-wrap"><iframe id="preview" title="Aperçu de la page avec les modifications en cours"></iframe></div>
+          </div>
+        </section>
+        <section class="form-pane" aria-label="Formulaire">
+          <div class="form-pane-head"><h2>Contenu</h2><p id="form-intro"></p></div>
+          <div id="form-sections"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/js/demo-data.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script src="../assets/js/editor.js"></script>
+</body>
+</html>
