@@ -1,0 +1,19 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Dépendances autorisées à exécuter un script d'installation (bloqué par défaut).
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+
+# Versions partagées par tous les paquets : `"nuxt": "catalog:"` dans un package.json.
+catalog:
+  nuxt: ^4.6.2
+  vue: ^3.5.44
+  vue-router: ^5.4.0
+  typescript: ~6.0.3
+  vue-tsc: ^3.3.13
+  vitest: ^5.0.5
+  '@nuxt/test-utils': ^4.3.4
+  '@types/node': ^24.0.0

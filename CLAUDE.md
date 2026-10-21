@@ -47,9 +47,27 @@ docs/             Cadrage, specs, maquettes, exploitation.
 
 ## Commandes
 
-À compléter lors de la mise en place du socle. Prévues : `pnpm dev` (Docker
-Compose), `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:e2e`,
-`pnpm content:pull`, `pnpm content:reset`.
+Node 24 (`.nvmrc`) et pnpm 12 (champ `packageManager`). Depuis la racine :
+
+| Commande | Effet |
+|---|---|
+| `pnpm install` | Installe les dépendances et génère les types Nuxt (`.nuxt/`) |
+| `pnpm dev:site` / `pnpm dev:admin` | Lance le site (port 3000) ou l'admin (port 3001) |
+| `pnpm lint` / `pnpm lint:fix` | ESLint sur tout le dépôt (mise en forme comprise, pas de Prettier) |
+| `pnpm typecheck` | `nuxt typecheck` sur les deux apps (le layer partagé est inclus) |
+| `pnpm test` | Vitest dans les trois paquets |
+
+Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`.
+
+- Versions communes dans le `catalog` de `pnpm-workspace.yaml` (`"nuxt": "catalog:"`).
+- Une dépendance qui doit exécuter un script d'installation s'ajoute à
+  `allowBuilds` dans `pnpm-workspace.yaml` (pnpm les bloque par défaut).
+- TypeScript reste en 6.x tant que `vue-tsc` ne prend pas en charge TypeScript 7.
+- Tests d'intégration d'une app : `@nuxt/test-utils/e2e` (`setup` construit et
+  démarre l'app). Tests unitaires du layer : Vitest seul.
+
+Prévues plus tard : `docker compose up` (#3), `pnpm test:e2e` (#4),
+`pnpm content:pull` et `pnpm content:reset` (#74).
 
 ## TDD (obligatoire)
 

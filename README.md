@@ -15,16 +15,22 @@ vers des plateformes externes.
 
 ## État du projet
 
-Le code n'est pas encore écrit. Le projet avance par phases, chacune validée avant
-la suivante.
+La préparation est terminée (cadrage, specs, maquettes, outillage, backlog). Le
+développement suit les [issues GitHub](https://github.com/NathanLeRoux29/BessegeTrail/issues),
+regroupées en 4 milestones : M1 Socle, M2 Site public, M3 Back-office, M4 Mise en
+ligne.
 
-| Phase | Contenu | État |
-|---|---|---|
-| 1. Cadrage | Stack, hébergement, déploiement | ✅ Fait |
-| 2. Spécifications | Specs par domaine dans `docs/specs/` | ✅ Fait |
-| 3. Maquettes | Maquettes HTML interactives dans `docs/maquettes/` | ✅ Fait |
-| 4. Outillage | Templates d'issues, skill Claude Code, `CLAUDE.md` | À faire |
-| 5. Backlog | Issues GitHub ordonnées | À faire |
+## Démarrer
+
+Prérequis : Node 24 (`nvm use`) et pnpm 12 (`corepack enable`).
+
+```bash
+pnpm install
+pnpm dev:site     # http://localhost:3000
+pnpm dev:admin    # http://localhost:3001
+```
+
+Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test`.
 
 ## Documentation
 
@@ -41,7 +47,7 @@ python3 -m http.server -d docs/maquettes 8000
 Puis ouvrir <http://localhost:8000>. Les modifications faites dans le back-office
 de la maquette sont conservées dans le navigateur.
 
-## Stack prévue
+## Stack
 
 - **Nuxt 4** (Vue) en monorepo pnpm : `apps/site` (public, lecture seule),
   `apps/admin` (back-office), `packages/shared` (composants, thème, schémas Zod).
