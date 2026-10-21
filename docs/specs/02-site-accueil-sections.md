@@ -69,6 +69,10 @@ ACC-18 à ACC-20 et ACC-25 à ACC-27 y ont été déplacés (INF-07 à INF-12).
   par un texte modifiable (par défaut « Merci à tous, rendez-vous l'an prochain ! »).
 - **ACC-11** — Le compte à rebours peut être masqué indépendamment du reste de la
   bannière.
+- **ACC-35** — Sous la bannière, un bandeau de chiffres clés affiche le nombre
+  d'épreuves visibles, la plus longue distance, le plus grand dénivelé positif et
+  l'édition. Ces valeurs sont calculées automatiquement à partir des épreuves et
+  des paramètres généraux.
 
 ### 2. Présentation
 
