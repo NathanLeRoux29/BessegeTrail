@@ -90,8 +90,10 @@ Compose), `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:e2e`,
 ## Branches, commits et versions
 
 ```
-feature/* ──push──▶ dev ──PR──▶ preprod ──PR──▶ main
+push ──▶ dev ──PR──▶ preprod ──PR──▶ main
 ```
+
+- On travaille et on pousse directement sur `dev` : pas de branche par issue.
 
 - Conventional Commits, description en français : `feat(site): galerie avec visionneuse`.
   Portées : `site`, `admin`, `shared`, `contenu`, `auth`, `infra`, `ci`, `docs`.

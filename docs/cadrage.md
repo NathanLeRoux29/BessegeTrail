@@ -88,11 +88,11 @@ moins adapté à un public non technique, plus lourd à héberger).
 ## Branches, versions et déploiement
 
 ```
-feature/* ──push──▶ dev ──PR──▶ preprod ──PR──▶ main
-                     │            │               │
-            CI non bloquante  CI obligatoire  CI obligatoire
-            v1.2.0-dev.N      v1.2.0-rc.N     v1.2.0
-            (pas déployé)     → préprod       → production
+push ──▶ dev ──PR──▶ preprod ──PR──▶ main
+          │            │               │
+  CI non bloquante  CI obligatoire  CI obligatoire
+  v1.2.0-dev.N      v1.2.0-rc.N     v1.2.0
+  (pas déployé)     → préprod       → production
 ```
 
 Détails dans `specs/09-deploiement-ci-cd.md`.

@@ -54,10 +54,10 @@ de la maquette sont conservées dans le navigateur.
 ## Branches et versions
 
 ```
-feature/* ──push──▶ dev ──PR──▶ preprod ──PR──▶ main
-                    CI          CI obligatoire   CI obligatoire
-                    X.Y.Z-dev.N X.Y.Z-rc.N       X.Y.Z
-                    (local)     préproduction    production
+push ──▶ dev ──PR──▶ preprod ──PR──▶ main
+          CI          CI obligatoire   CI obligatoire
+          X.Y.Z-dev.N X.Y.Z-rc.N       X.Y.Z
+          (local)     préproduction    production
 ```
 
 Les messages de commit suivent les
