@@ -52,11 +52,13 @@ Node 24 (`.nvmrc`) et pnpm 12 (champ `packageManager`). Depuis la racine :
 | Commande | Effet |
 |---|---|
 | `pnpm install` | Installe les dépendances et génère les types Nuxt (`.nuxt/`) |
-| `pnpm dev:site` / `pnpm dev:admin` | Lance le site (port 3000) ou l'admin (port 3001) |
+| `pnpm dev` | `docker compose up` : site (3000) et admin (3001) en Docker, rechargement à chaud |
+| `docker compose --profile stats up` | Idem, avec Umami (3002) et sa base PostgreSQL |
+| `pnpm dev:site` / `pnpm dev:admin` | Lance le site (port 3000) ou l'admin (port 3001) sans Docker |
 | `pnpm lint` / `pnpm lint:fix` | ESLint sur tout le dépôt (mise en forme comprise, pas de Prettier) |
 | `pnpm typecheck` | `nuxt typecheck` sur les deux apps (le layer partagé est inclus) |
 | `pnpm test` | Vitest dans les trois paquets |
-| `pnpm test:docker` | Construit les images Docker et vérifie DEP-01 et AUT-19 (lent, Docker requis) |
+| `pnpm test:docker` | Vérifie les images Docker (DEP-01, AUT-19) et l'environnement Compose (DEP-02). Lent, Docker requis |
 | `docker build --file docker/app.Dockerfile --build-arg APP=site --tag bessege/site .` | Construit l'image d'une app (`APP=site` ou `admin`) |
 
 Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
@@ -73,7 +75,16 @@ Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
   depuis la racine. L'image finale ne contient que `.output`, tourne avec
   l'utilisateur `node` et a un healthcheck `wget` sur `/api/health`.
 
-Prévues plus tard : `docker compose up` (#3), `pnpm test:e2e` (#4),
+- Compose de développement (`compose.yaml`) : image `node:24-slim` qui utilise
+  les `node_modules` de la machine (Linux x64 uniquement), dépôt monté sous
+  `/repo`, utilisateur `node` (uid 1000). Volumes `data` et `uploads` : écriture
+  pour l'admin, lecture seule pour le site. Les tests utilisent le projet
+  `bessege-test` et les ports 13000 à 13002.
+- Le rechargement à chaud consomme des surveillances de fichiers (inotify),
+  partagées avec VS Code et les autres projets : en cas d'erreur `ENOSPC`, relever
+  `fs.inotify.max_user_watches` et `max_user_instances` (voir le README).
+
+Prévues plus tard : `pnpm test:e2e` (#4),
 `pnpm content:pull` et `pnpm content:reset` (#74).
 
 ## TDD (obligatoire)

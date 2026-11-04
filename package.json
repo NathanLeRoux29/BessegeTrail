@@ -7,6 +7,7 @@
     "node": ">=24.15.0"
   },
   "scripts": {
+    "dev": "docker compose up",
     "dev:site": "pnpm --filter @bessege/site dev",
     "dev:admin": "pnpm --filter @bessege/admin dev",
     "lint": "eslint .",

@@ -26,9 +26,20 @@ Prérequis : Node 24 (`nvm use`) et pnpm 12 (`corepack enable`).
 
 ```bash
 pnpm install
-pnpm dev:site     # http://localhost:3000
-pnpm dev:admin    # http://localhost:3001
+pnpm dev          # Docker : site sur http://localhost:3000, admin sur http://localhost:3001
 ```
+
+- Statistiques en local : `docker compose --profile stats up` (Umami sur
+  <http://localhost:3002>, identifiants par défaut d'Umami).
+- Sans Docker : `pnpm dev:site` et `pnpm dev:admin`.
+- Erreur `ENOSPC: System limit for number of file watchers reached` : la machine
+  surveille trop de fichiers (VS Code, autres projets). À faire une fois :
+
+  ```bash
+  printf 'fs.inotify.max_user_watches=524288\nfs.inotify.max_user_instances=1024\n' \
+    | sudo tee /etc/sysctl.d/60-inotify.conf
+  sudo sysctl --system
+  ```
 
 Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test`, et
 `pnpm test:docker` pour les images Docker.

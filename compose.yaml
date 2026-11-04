@@ -1,0 +1,82 @@
+# Environnement de développement : `docker compose up` (ou `pnpm dev`) depuis la racine.
+# Statistiques Umami en plus : `docker compose --profile stats up`.
+#
+# Le dépôt est monté dans les conteneurs et ils utilisent les node_modules de la
+# machine (image Debian, compatible avec un Linux x64) : lancer `pnpm install`
+# avant le premier démarrage. Le code est rechargé à chaud.
+name: bessege
+
+x-nuxt-dev: &nuxt-dev
+  image: node:24-slim
+  # uid 1000 : les fichiers générés appartiennent à l'utilisateur de la machine.
+  user: node
+  environment:
+    NUXT_TELEMETRY_DISABLED: '1'
+
+services:
+  site:
+    <<: *nuxt-dev
+    working_dir: /repo/apps/site
+    command: [./node_modules/.bin/nuxt, dev, --host, 0.0.0.0, --port, '3000']
+    ports:
+      - ${SITE_PORT:-3000}:3000
+    volumes:
+      - .:/repo
+      # Le site lit la base et les fichiers envoyés, sans pouvoir y écrire.
+      - data:/data:ro
+      - uploads:/uploads:ro
+
+  admin:
+    <<: *nuxt-dev
+    working_dir: /repo/apps/admin
+    command: [./node_modules/.bin/nuxt, dev, --host, 0.0.0.0, --port, '3001']
+    ports:
+      - ${ADMIN_PORT:-3001}:3001
+    volumes:
+      - .:/repo
+      - data:/data
+      - uploads:/uploads
+    depends_on:
+      volumes-init:
+        condition: service_completed_successfully
+
+  # Donne les volumes à l'utilisateur node (ils sont créés au nom de root).
+  volumes-init:
+    image: node:24-slim
+    command: [chown, 'node:node', /data, /uploads]
+    volumes:
+      - data:/data
+      - uploads:/uploads
+
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    profiles: [stats]
+    environment:
+      DATABASE_URL: postgresql://umami:umami@umami-db:5432/umami
+      # Valeur de développement uniquement : la production utilise un secret.
+      APP_SECRET: dev-only-not-secret
+    ports:
+      - ${UMAMI_PORT:-3002}:3000
+    depends_on:
+      umami-db:
+        condition: service_healthy
+
+  umami-db:
+    image: postgres:17-alpine
+    profiles: [stats]
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    volumes:
+      - umami-db:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U umami -d umami]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  data:
+  uploads:
+  umami-db:
