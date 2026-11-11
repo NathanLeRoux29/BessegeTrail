@@ -156,6 +156,14 @@ describe('Dependabot', () => {
     expect(ignoresMajor(update('npm'), 'typescript')).toBe(true)
   })
 
+  it('DEP-21 : garde les types de Node alignés sur la version de Node (24)', () => {
+    expect(ignoresMajor(update('npm'), '@types/node')).toBe(true)
+  })
+
+  it('DEP-21 : ne propose pas la version 10 du preset conventionalcommits, incompatible avec semantic-release', () => {
+    expect(ignoresMajor(update('npm'), 'conventional-changelog-conventionalcommits')).toBe(true)
+  })
+
   it('DEP-10 : écrit des messages de commit chore(deps) acceptés par commitlint', () => {
     for (const entry of updates()) {
       expect(entry['commit-message']).toMatchObject({ prefix: 'chore', include: 'scope' })

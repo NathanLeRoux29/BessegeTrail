@@ -23,6 +23,13 @@ updates:
       # TypeScript reste en 6.x tant que vue-tsc ne prend pas en charge la 7.
       - dependency-name: typescript
         update-types: [version-update:semver-major]
+      # Les types suivent la version de Node utilisée (.nvmrc).
+      - dependency-name: '@types/node'
+        update-types: [version-update:semver-major]
+      # La 10 exige conventional-changelog-writer 9, que semantic-release
+      # n'utilise pas encore (test/release.test.ts échoue).
+      - dependency-name: conventional-changelog-conventionalcommits
+        update-types: [version-update:semver-major]
 
   # Images de base de docker/app.Dockerfile.
   - package-ecosystem: docker

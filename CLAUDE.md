@@ -85,7 +85,9 @@ dépendance ou la configuration d'une app change.
   renommer. Actions tierces épinglées par SHA de commit (version en commentaire).
   La CI tourne aussi sur les PR vers `dev` (celles de Dependabot).
 - Sécurité GitHub : Dependabot (`.github/dependabot.yml`, chaque lundi, PR vers
-  `dev`, majeures de Node, PostgreSQL et TypeScript ignorées). CodeQL, secret
+  `dev`, majeures de Node, `@types/node`, PostgreSQL, TypeScript et du preset
+  `conventionalcommits` ignorées : chaque exclusion est justifiée en commentaire
+  dans le fichier). CodeQL, secret
   scanning et push protection sont activés dans les réglages du dépôt, sans
   fichier. Images de base du Dockerfile écrites en clair (pas d'`ARG`) pour
   Dependabot.
