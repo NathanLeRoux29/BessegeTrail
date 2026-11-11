@@ -17,4 +17,4 @@ catalog:
   vitest: ^5.1.0
   '@vitest/coverage-v8': ^5.1.0
   '@nuxt/test-utils': ^4.3.4
-  '@types/node': ^24.0.0
+  '@types/node': ^26.6.6
