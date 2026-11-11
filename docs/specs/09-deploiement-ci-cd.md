@@ -51,10 +51,11 @@ en un clic de merge, sauvegardes et surveillance.
 ### CI (GitHub Actions)
 
 - **DEP-06** — Le workflow `ci` s'exécute à chaque push sur `dev` et sur chaque PR
-  vers `preprod` ou `main`. Il enchaîne : installation (cache pnpm), lint (ESLint),
-  vérification des types (`nuxi typecheck`), tests unitaires et d'API (Vitest),
-  construction des images Docker, tests de bout en bout (Playwright et axe-core)
-  sur les images construites.
+  vers `dev` (celles de Dependabot), `preprod` ou `main`. Il enchaîne :
+  installation (cache pnpm), lint (ESLint), vérification des types
+  (`nuxi typecheck`), tests unitaires et d'API (Vitest), construction des images
+  Docker, tests de bout en bout (Playwright et axe-core) sur les images
+  construites.
 - **DEP-07** — Le résultat de chaque étape est un *check* nommé de façon stable
   (`lint`, `typecheck`, `test`, `build`, `e2e`), utilisable dans les règles de
   protection.
@@ -119,7 +120,8 @@ en un clic de merge, sauvegardes et surveillance.
   vérification hebdomadaire, des mises à jour groupées (mineures et correctifs
   dans une seule PR) et des PR ciblant `dev`.
 - **DEP-22** — CodeQL analyse le code JavaScript/TypeScript sur chaque PR et chaque
-  semaine.
+  semaine (configuration par défaut de CodeQL, activée dans les réglages du dépôt :
+  pas de workflow à maintenir).
 - **DEP-23** — Le secret scanning et la *push protection* sont activés.
 - **DEP-24** — Les actions GitHub tierces sont épinglées par SHA de commit.
 

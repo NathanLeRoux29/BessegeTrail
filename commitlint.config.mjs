@@ -3,7 +3,7 @@
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'scope-enum': [2, 'always', ['site', 'admin', 'shared', 'contenu', 'auth', 'infra', 'ci', 'docs', 'deps', 'claude']],
+    'scope-enum': [2, 'always', ['site', 'admin', 'shared', 'contenu', 'auth', 'infra', 'ci', 'docs', 'deps', 'deps-dev', 'claude']],
     // Descriptions en français : les noms propres et sigles gardent leur casse.
     'subject-case': [0],
     // Les commits de Dependabot contiennent des lignes très longues.

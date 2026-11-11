@@ -17,6 +17,7 @@ describe('messages de commit', () => {
   it('DEP-10 : les commits de Dependabot sont acceptés, même avec des lignes longues', async () => {
     const message = `chore(deps): bump the npm_and_yarn group across 1 directory with 3 updates\n\nBumps ${'x'.repeat(200)}`
     expect((await check(message)).valid).toBe(true)
+    expect((await check('chore(deps-dev): bump vitest from 5.1.0 to 5.2.0')).valid).toBe(true)
   })
 
   it('DEP-10 : un message sans type est refusé', async () => {

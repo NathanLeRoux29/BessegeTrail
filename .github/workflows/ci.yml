@@ -6,8 +6,9 @@ name: ci
 on:
   push:
     branches: [dev]
+  # PR vers preprod et main (checks obligatoires) et vers dev (Dependabot, DEP-21).
   pull_request:
-    branches: [preprod, main]
+    branches: [dev, preprod, main]
 
 permissions:
   contents: read

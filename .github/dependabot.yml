@@ -1,0 +1,82 @@
+# Mises à jour des dépendances (spec 09, DEP-21) : chaque lundi, PR vers dev.
+# Mineures et correctifs groupés dans une PR par écosystème ; chaque version
+# majeure arrive dans sa propre PR. Messages `chore(deps)` / `chore(deps-dev)` :
+# acceptés par commitlint, ils ne créent pas de version.
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Paris
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
+    groups:
+      npm-mineures:
+        update-types: [minor, patch]
+    ignore:
+      # TypeScript reste en 6.x tant que vue-tsc ne prend pas en charge la 7.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+
+  # Images de base de docker/app.Dockerfile.
+  - package-ecosystem: docker
+    directory: /docker
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Paris
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      docker-mineures:
+        update-types: [minor, patch]
+    ignore:
+      # Node reste sur la version LTS choisie (24).
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+
+  # Images de compose.yaml (environnement de développement).
+  - package-ecosystem: docker-compose
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Paris
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      compose-mineures:
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+      # Une version majeure de PostgreSQL impose une migration des données.
+      - dependency-name: postgres
+        update-types: [version-update:semver-major]
+
+  # Workflows et action d'installation locale (actions épinglées par SHA).
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/setup
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Paris
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      actions-mineures:
+        update-types: [minor, patch]

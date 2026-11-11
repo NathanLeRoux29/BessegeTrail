@@ -23,6 +23,31 @@ interface Workflow {
 
 const workflowFile = new URL('../.github/workflows/ci.yml', import.meta.url)
 const releaseFile = new URL('../.github/workflows/release.yml', import.meta.url)
+const dependabotFile = new URL('../.github/dependabot.yml', import.meta.url)
+const dockerfile = new URL('../docker/app.Dockerfile', import.meta.url)
+
+interface Update {
+  'package-ecosystem': string
+  'directory'?: string
+  'directories'?: string[]
+  'target-branch': string
+  'schedule': { interval: string }
+  'groups'?: Record<string, { 'update-types'?: string[] }>
+  'ignore'?: { 'dependency-name': string, 'update-types'?: string[] }[]
+  'commit-message'?: { 'prefix'?: string, 'prefix-development'?: string, 'include'?: string }
+}
+
+function updates(): Update[] {
+  return load<{ updates: Update[] }>(dependabotFile).updates
+}
+
+function update(ecosystem: string): Update | undefined {
+  return updates().find(entry => entry['package-ecosystem'] === ecosystem)
+}
+
+function ignoresMajor(entry: Update | undefined, dependency: string): boolean {
+  return !!entry?.ignore?.some(rule => rule['dependency-name'] === dependency && rule['update-types']?.includes('version-update:semver-major'))
+}
 const setupAction = new URL('../.github/actions/setup/action.yml', import.meta.url)
 
 function load<T>(file: URL): T {
@@ -38,8 +63,8 @@ describe('workflow de CI', () => {
     expect(load<Workflow>(workflowFile).on.push?.branches).toEqual(['dev'])
   })
 
-  it('DEP-06 : s’exécute à chaque PR vers preprod ou main', () => {
-    expect(load<Workflow>(workflowFile).on.pull_request?.branches).toEqual(['preprod', 'main'])
+  it('DEP-06 : s’exécute à chaque PR vers dev (Dependabot), preprod ou main', () => {
+    expect(load<Workflow>(workflowFile).on.pull_request?.branches).toEqual(['dev', 'preprod', 'main'])
   })
 
   it('DEP-07 : a exactement les checks lint, typecheck, test, build et e2e', () => {
@@ -98,6 +123,51 @@ describe('workflow de release', () => {
     expect(build?.with?.push).toBe(true)
     expect(build?.with?.tags).toBe('ghcr.io/nathanleroux29/bessege-${{ matrix.app }}:${{ needs.release.outputs.version }}')
     expect(build?.with?.['build-args']).toContain('VERSION=${{ needs.release.outputs.version }}')
+  })
+})
+
+describe('Dependabot', () => {
+  it('DEP-21 : surveille npm, Docker, Docker Compose et GitHub Actions', () => {
+    expect(updates().map(entry => entry['package-ecosystem']).sort()).toEqual(['docker', 'docker-compose', 'github-actions', 'npm'])
+  })
+
+  it('DEP-21 : vérifie chaque semaine et ouvre ses PR vers dev', () => {
+    for (const entry of updates()) {
+      expect(entry.schedule.interval).toBe('weekly')
+      expect(entry['target-branch']).toBe('dev')
+    }
+  })
+
+  it('DEP-21 : regroupe les mises à jour mineures et correctives dans une seule PR', () => {
+    for (const entry of updates()) {
+      const groups = Object.values(entry.groups ?? {})
+      expect(groups.some(group => group['update-types']?.sort().join() === 'minor,patch')).toBe(true)
+    }
+  })
+
+  it('DEP-21 : surveille aussi l’action d’installation locale', () => {
+    expect(update('github-actions')?.directories).toEqual(expect.arrayContaining(['/', '/.github/actions/setup']))
+  })
+
+  it('DEP-21 : ne propose pas de changer de version majeure de Node, PostgreSQL ni TypeScript', () => {
+    expect(ignoresMajor(update('docker'), 'node')).toBe(true)
+    expect(ignoresMajor(update('docker-compose'), 'node')).toBe(true)
+    expect(ignoresMajor(update('docker-compose'), 'postgres')).toBe(true)
+    expect(ignoresMajor(update('npm'), 'typescript')).toBe(true)
+  })
+
+  it('DEP-10 : écrit des messages de commit chore(deps) acceptés par commitlint', () => {
+    for (const entry of updates()) {
+      expect(entry['commit-message']).toMatchObject({ prefix: 'chore', include: 'scope' })
+    }
+    expect(update('npm')?.['commit-message']?.['prefix-development']).toBe('chore')
+  })
+
+  it('DEP-21 : les images de base du Dockerfile sont écrites en clair, lisibles par Dependabot', () => {
+    const froms = readFileSync(dockerfile, 'utf8').split('\n').filter(line => line.startsWith('FROM '))
+
+    expect(froms.length).toBeGreaterThan(0)
+    for (const from of froms) expect(from).toMatch(/^FROM node:24-alpine /)
   })
 })
 

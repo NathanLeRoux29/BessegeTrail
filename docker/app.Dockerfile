@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1
 # Image d'une app Nuxt du monorepo (site ou admin). À construire depuis la racine :
 #   docker build --file docker/app.Dockerfile --build-arg APP=site --tag bessege/site .
-ARG NODE_IMAGE=node:24-alpine
-
 # 1. Dépendances et compilation
-FROM ${NODE_IMAGE} AS build
+# Image de base écrite en clair (et non via ARG) pour que Dependabot la mette à jour.
+FROM node:24-alpine AS build
 ARG APP
 RUN test "$APP" = site || test "$APP" = admin || { echo "APP doit valoir site ou admin" >&2; exit 1; }
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -22,7 +21,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
 RUN pnpm --filter "@bessege/${APP}" build
 
 # 2. Image finale : uniquement l'app compilée (.output contient ses dépendances)
-FROM ${NODE_IMAGE} AS runtime
+FROM node:24-alpine AS runtime
 ARG APP
 # Version calculée par semantic-release (DEP-13), renvoyée par /api/health.
 ARG VERSION=dev
