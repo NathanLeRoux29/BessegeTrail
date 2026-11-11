@@ -51,7 +51,7 @@ Node 24 (`.nvmrc`) et pnpm 12 (champ `packageManager`). Depuis la racine :
 
 | Commande | Effet |
 |---|---|
-| `pnpm install` | Installe les dépendances et génère les types Nuxt (`.nuxt/`) |
+| `pnpm install` | Installe les dépendances, génère les types Nuxt (`.nuxt/`) et active le hook `commit-msg` (husky) |
 | `pnpm dev` | `docker compose up` : site (3000) et admin (3001) en Docker, rechargement à chaud |
 | `docker compose --profile stats up` | Idem, avec Umami (3002) et sa base PostgreSQL |
 | `pnpm dev:site` / `pnpm dev:admin` | Lance le site (port 3000) ou l'admin (port 3001) sans Docker |
@@ -80,7 +80,7 @@ dépendance ou la configuration d'une app change.
   l'entrée, appelle une fonction de `server/utils` (testée unitairement) et rend
   le résultat. Il n'est pas compté dans la couverture, mais il a ses tests
   d'intégration.
-- CI (`.github/workflows/ci.yml`) : jobs `lint`, `typecheck`, `test`, `build`,
+- CI (`.github/workflows/ci.yml`) : jobs `lint` (avec commitlint), `typecheck`, `test`, `build`,
   `e2e`. Ces noms sont les checks exigés sur `preprod` et `main` : ne pas les
   renommer. Actions tierces épinglées par SHA de commit (version en commentaire).
 
@@ -144,9 +144,19 @@ push ──▶ dev ──PR──▶ preprod ──PR──▶ main
 - On travaille et on pousse directement sur `dev` : pas de branche par issue.
 
 - Conventional Commits, description en français : `feat(site): galerie avec visionneuse`.
-  Portées : `site`, `admin`, `shared`, `contenu`, `auth`, `infra`, `ci`, `docs`.
+  Portées : `site`, `admin`, `shared`, `contenu`, `auth`, `infra`, `ci`, `docs`,
+  `deps` (Dependabot), `claude`. Vérifié par commitlint (`commitlint.config.mjs`) :
+  hook `commit-msg` en local, étape du job `lint` en CI.
 - Merges `dev → preprod` et `preprod → main` en *merge commit*, jamais en squash
   (semantic-release a besoin des messages).
+- Versions (`release.config.mjs`, workflow `release`) : à chaque push, `dev` donne
+  `X.Y.Z-dev.N`, `preprod` `X.Y.Z-rc.N` et `main` `X.Y.Z`. Tag et release GitHub
+  (les notes de release tiennent lieu de changelog), images
+  `ghcr.io/nathanleroux29/bessege-{site,admin}:<version>`. `feat` → mineure,
+  `fix`/`perf` → correctif, `docs`/`chore`/`test`… → pas de version.
+- **Après chaque release sur `main`, fusionner `main` dans `dev`**
+  (`git merge origin/main` puis push) : sinon `dev` et `preprod` continuent à
+  numéroter l'ancienne version (testé dans `test/release.test.ts`).
 - `dev` n'est pas déployé ; `preprod` et `main` le sont automatiquement après la CI.
 
 ## Issues

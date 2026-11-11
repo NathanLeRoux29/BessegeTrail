@@ -91,8 +91,11 @@ push ──▶ dev ──PR──▶ preprod ──PR──▶ main
 ```
 
 Les messages de commit suivent les
-[Conventional Commits](https://www.conventionalcommits.org/fr/) : les versions
-sont calculées automatiquement par semantic-release.
+[Conventional Commits](https://www.conventionalcommits.org/fr/) (vérifiés par
+commitlint, en local et en CI) : les versions sont calculées automatiquement par
+semantic-release, et les images Docker sont publiées sur GHCR avec ce numéro.
+Après chaque mise en production, fusionner `main` dans `dev`
+(`git merge origin/main`).
 
 Le code monte vers la production par Git. Le contenu saisi dans le back-office
 reste sur le serveur et ne circule que dans l'autre sens (production → préprod →

@@ -53,8 +53,8 @@ describe('environnement de développement Docker Compose', () => {
   })
 
   it('DEP-02 : `docker compose up` démarre le site et l’admin', async () => {
-    expect(await waitForJson(`http://127.0.0.1:${ports.site}/api/health`, 180_000)).toEqual({ status: 'ok', service: 'site' })
-    expect(await waitForJson(`http://127.0.0.1:${ports.admin}/api/health`, 180_000)).toEqual({ status: 'ok', service: 'admin' })
+    expect(await waitForJson(`http://127.0.0.1:${ports.site}/api/health`, 180_000)).toEqual({ status: 'ok', service: 'site', version: 'dev' })
+    expect(await waitForJson(`http://127.0.0.1:${ports.admin}/api/health`, 180_000)).toEqual({ status: 'ok', service: 'admin', version: 'dev' })
   }, 400_000)
 
   it('DEP-02 : sans le profil stats, Umami et PostgreSQL ne sont pas lancés', () => {

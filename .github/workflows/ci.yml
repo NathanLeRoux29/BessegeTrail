@@ -25,8 +25,19 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # historique complet, pour vérifier les messages de commit
       - uses: ./.github/actions/setup
       - run: pnpm lint
+      # DEP-10 : messages des commits poussés (ou de la PR) au format Conventional Commits.
+      - name: Messages de commit
+        env:
+          FROM: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          TO: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          # Première poussée d'une branche : pas de commit précédent, on vérifie le dernier.
+          if [ "$FROM" = 0000000000000000000000000000000000000000 ]; then FROM="$TO~1"; fi
+          pnpm exec commitlint --from "$FROM" --to "$TO" --verbose
 
   typecheck:
     runs-on: ubuntu-24.04

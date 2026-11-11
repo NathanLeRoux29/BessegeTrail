@@ -24,8 +24,13 @@ RUN pnpm --filter "@bessege/${APP}" build
 # 2. Image finale : uniquement l'app compilée (.output contient ses dépendances)
 FROM ${NODE_IMAGE} AS runtime
 ARG APP
+# Version calculée par semantic-release (DEP-13), renvoyée par /api/health.
+ARG VERSION=dev
+LABEL org.opencontainers.image.source="https://github.com/NathanLeRoux29/BessegeTrail" \
+      org.opencontainers.image.version="${VERSION}"
 ENV NODE_ENV=production \
-    PORT=3000
+    PORT=3000 \
+    NUXT_APP_VERSION="${VERSION}"
 WORKDIR /app
 # Fichiers appartenant à root, en lecture seule pour l'utilisateur node.
 COPY --from=build /repo/apps/${APP}/.output ./.output

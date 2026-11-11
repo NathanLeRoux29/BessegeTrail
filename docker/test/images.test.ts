@@ -21,10 +21,11 @@ async function waitForHealth(container: string, expected: string, timeoutMs: num
 
 describe.each(['site', 'admin'])('image Docker %s', (app) => {
   const image = `bessege-test/${app}:test`
+  const version = '1.2.3-test.1'
   const containers: string[] = []
 
   beforeAll(() => {
-    docker('build', '--file', 'docker/app.Dockerfile', '--build-arg', `APP=${app}`, '--tag', image, '.')
+    docker('build', '--file', 'docker/app.Dockerfile', '--build-arg', `APP=${app}`, '--build-arg', `VERSION=${version}`, '--tag', image, '.')
   })
 
   afterAll(() => {
@@ -62,7 +63,11 @@ describe.each(['site', 'admin'])('image Docker %s', (app) => {
     expect(await waitForHealth(container, 'healthy', 60_000)).toBe('healthy')
     const port = docker('port', container, '3000').split(':').at(-1)
     const response = await fetch(`http://127.0.0.1:${port}/api/health`)
-    expect(await response.json()).toEqual({ status: 'ok', service: app })
+    expect(await response.json()).toEqual({ status: 'ok', service: app, version })
+  })
+
+  it('DEP-13 : porte le numéro de version dans ses métadonnées', () => {
+    expect(docker('inspect', '--format', '{{index .Config.Labels "org.opencontainers.image.version"}}', image)).toBe(version)
   })
 
   it('DEP-01 : passe à unhealthy quand le serveur ne répond pas', async () => {

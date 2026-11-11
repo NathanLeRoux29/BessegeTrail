@@ -6,6 +6,7 @@
     "module": "Preserve",
     "moduleResolution": "Bundler",
     "strict": true,
+    "allowJs": true,
     "noEmit": true,
     "skipLibCheck": true,
     "types": ["node"]

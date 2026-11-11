@@ -69,11 +69,18 @@ en un clic de merge, sauvegardes et surveillance.
 ### Versions
 
 - **DEP-10** — Les messages de commit suivent Conventional Commits (`feat:`,
-  `fix:`, `chore:`…). Un hook local (commitlint) et un check de CI le vérifient.
+  `fix:`, `chore:`…). Un hook local (commitlint) et le check `lint` de la CI le
+  vérifient.
 - **DEP-11** — semantic-release crée un tag et une release GitHub :
   - à chaque push sur `dev` : version `X.Y.Z-dev.N` ;
   - à chaque merge vers `preprod` : version `X.Y.Z-rc.N` ;
   - à chaque merge vers `main` : version `X.Y.Z`, avec un changelog.
+
+  Le changelog est la note de la release GitHub (aucun fichier n'est commité sur
+  les branches protégées). Les versions partent du tag `v0.0.0` : `0.x` jusqu'à
+  la mise en ligne. Après chaque release sur `main`, `main` est fusionnée dans
+  `dev`, sans quoi `dev` et `preprod` continueraient à numéroter l'ancienne
+  version.
 - **DEP-12** — Les merges `dev → preprod` et `preprod → main` utilisent un *merge
   commit* (pas de squash) pour conserver les messages de commit nécessaires au
   calcul de version.

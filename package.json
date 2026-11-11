@@ -7,6 +7,7 @@
     "node": ">=24.15.0"
   },
   "scripts": {
+    "prepare": "husky",
     "dev": "docker compose up",
     "dev:site": "pnpm --filter @bessege/site dev",
     "dev:admin": "pnpm --filter @bessege/admin dev",
@@ -19,10 +20,17 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@commitlint/lint": "^21.2.4",
+    "@commitlint/load": "^21.2.4",
     "@nuxt/eslint-config": "^1.17.0",
     "@playwright/test": "^1.64.1",
     "@types/node": "catalog:",
+    "conventional-changelog-conventionalcommits": "^9.3.1",
     "eslint": "^10.13.0",
+    "husky": "^9.1.7",
+    "semantic-release": "~25.0.9",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "yaml": "^2.9.1"
