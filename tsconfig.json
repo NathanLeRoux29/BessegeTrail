@@ -1,0 +1,14 @@
+// Fichiers TypeScript hors des apps et du layer (qui ont leur propre tsconfig) :
+// tests du dépôt, tests Docker, tests de bout en bout, configurations.
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["*.ts", "test/**/*.ts", "e2e/**/*.ts", "docker/**/*.ts"]
+}

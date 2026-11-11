@@ -41,8 +41,13 @@ pnpm dev          # Docker : site sur http://localhost:3000, admin sur http://lo
   sudo sysctl --system
   ```
 
-Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test`, et
-`pnpm test:docker` pour les images Docker.
+Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test` (couverture minimale
+80 %), `pnpm test:e2e` (Playwright et axe-core sur les images Docker) et
+`pnpm test:docker` pour les images et l'environnement Docker. La CI GitHub
+Actions lance les mêmes vérifications à chaque push sur `dev` et sur chaque PR
+vers `preprod` ou `main`.
+
+Avant le premier `pnpm test:e2e` : `pnpm exec playwright install chromium`.
 
 Image Docker d'une app (`APP=site` ou `admin`), depuis la racine :
 

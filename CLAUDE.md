@@ -56,13 +56,15 @@ Node 24 (`.nvmrc`) et pnpm 12 (champ `packageManager`). Depuis la racine :
 | `docker compose --profile stats up` | Idem, avec Umami (3002) et sa base PostgreSQL |
 | `pnpm dev:site` / `pnpm dev:admin` | Lance le site (port 3000) ou l'admin (port 3001) sans Docker |
 | `pnpm lint` / `pnpm lint:fix` | ESLint sur tout le dépôt (mise en forme comprise, pas de Prettier) |
-| `pnpm typecheck` | `nuxt typecheck` sur les deux apps (le layer partagé est inclus) |
-| `pnpm test` | Vitest dans les trois paquets |
+| `pnpm typecheck` | `nuxt typecheck` sur les deux apps (layer inclus), puis `tsc` sur le reste (tests, e2e, configs) |
+| `pnpm test` | Vitest dans les trois paquets (couverture minimale 80 %) et tests du dépôt (`test/`) |
+| `pnpm test:e2e` | Construit les images, les démarre (`docker/compose.e2e.yaml`, ports 14000 et 14001) et lance Playwright avec axe-core |
 | `pnpm test:docker` | Vérifie les images Docker (DEP-01, AUT-19) et l'environnement Compose (DEP-02). Lent, Docker requis |
 | `docker build --file docker/app.Dockerfile --build-arg APP=site --tag bessege/site .` | Construit l'image d'une app (`APP=site` ou `admin`) |
 
 Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
-`pnpm test:docker` si `docker/`, une dépendance ou la configuration d'une app change.
+`pnpm test:e2e` si une page change, et `pnpm test:docker` si `docker/`, une
+dépendance ou la configuration d'une app change.
 
 - Versions communes dans le `catalog` de `pnpm-workspace.yaml` (`"nuxt": "catalog:"`).
 - Une dépendance qui doit exécuter un script d'installation s'ajoute à
@@ -70,6 +72,17 @@ Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
 - TypeScript reste en 6.x tant que `vue-tsc` ne prend pas en charge TypeScript 7.
 - Tests d'intégration d'une app : `@nuxt/test-utils/e2e` (`setup` construit et
   démarre l'app). Tests unitaires du layer : Vitest seul.
+- Tests de bout en bout : `e2e/site/` et `e2e/admin/` (un projet Playwright par
+  app), sur les images de production. Chaque page passe par
+  `expectNoSeriousViolations` (`e2e/axe.ts`).
+- Couverture (DEP-08) : 80 % minimum sur `packages/shared` et `apps/admin/server`.
+  Un fichier de route (`server/api`, `server/routes`) reste mince : il valide
+  l'entrée, appelle une fonction de `server/utils` (testée unitairement) et rend
+  le résultat. Il n'est pas compté dans la couverture, mais il a ses tests
+  d'intégration.
+- CI (`.github/workflows/ci.yml`) : jobs `lint`, `typecheck`, `test`, `build`,
+  `e2e`. Ces noms sont les checks exigés sur `preprod` et `main` : ne pas les
+  renommer. Actions tierces épinglées par SHA de commit (version en commentaire).
 
 - Images Docker : un seul `docker/app.Dockerfile` paramétré par `APP`, construit
   depuis la racine. L'image finale ne contient que `.output`, tourne avec
@@ -84,8 +97,7 @@ Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
   partagées avec VS Code et les autres projets : en cas d'erreur `ENOSPC`, relever
   `fs.inotify.max_user_watches` et `max_user_instances` (voir le README).
 
-Prévues plus tard : `pnpm test:e2e` (#4),
-`pnpm content:pull` et `pnpm content:reset` (#74).
+Prévues plus tard : `pnpm content:pull` et `pnpm content:reset` (#74).
 
 ## TDD (obligatoire)
 

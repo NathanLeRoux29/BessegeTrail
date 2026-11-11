@@ -1,0 +1,25 @@
+# Tests de bout en bout (`pnpm test:e2e`) : les images de production des deux
+# apps, démarrées par Playwright (e2e/global-setup.ts). En CI, les images sont
+# construites par le job build ; en local, `pnpm test:e2e` les construit.
+name: bessege-e2e
+
+services:
+  site:
+    image: bessege/site:e2e
+    build:
+      context: ..
+      dockerfile: docker/app.Dockerfile
+      args:
+        APP: site
+    ports:
+      - 127.0.0.1:14000:3000
+
+  admin:
+    image: bessege/admin:e2e
+    build:
+      context: ..
+      dockerfile: docker/app.Dockerfile
+      args:
+        APP: admin
+    ports:
+      - 127.0.0.1:14001:3000
