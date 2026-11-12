@@ -1,0 +1,17 @@
+/* Jetons du thème (spec 04, THM-01) : seul fichier du dépôt où une couleur est
+ * écrite en dur (vérifié par test/theme.test.ts). Associations autorisées et
+ * contrastes : packages/shared/test/contrast.test.ts. Transparences : color-mix()
+ * à partir d'un jeton. */
+:root {
+  --color-primary: #F5700F;
+  --color-secondary: #052D1F;
+  --color-background: #FAF7F0;
+  --color-neutral: #E9E2D3;
+  --color-text: #1F2421;
+
+  /* Deux familles au plus (THM-04), servies par le site (SOC-13, voir fonts.css). */
+  --font-title: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-text: 'Inter Variable', system-ui, sans-serif;
+
+  --radius: 10px;
+}

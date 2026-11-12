@@ -1,0 +1,7 @@
+/* Polices auto-hébergées (THM-04, SOC-13) : fichiers fournis par Fontsource et
+ * intégrés au build, `font-display: swap`. Le navigateur ne télécharge que les
+ * jeux de caractères utilisés (latin pour le français). */
+@import '@fontsource/barlow-condensed/600.css';
+@import '@fontsource/barlow-condensed/700.css';
+@import '@fontsource/barlow-condensed/800.css';
+@import '@fontsource-variable/inter/wght.css';

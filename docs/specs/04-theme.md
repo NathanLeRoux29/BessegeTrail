@@ -42,13 +42,15 @@ décoratifs (filets, icônes non porteuses d'information).
 ## Critères d'acceptation
 
 - **THM-01** — Les 5 couleurs sont définies une seule fois, dans le layer partagé,
-  sous forme de jetons (variables CSS et configuration de l'outil de style). Aucune
-  couleur en dur ailleurs dans les composants.
+  sous forme de variables CSS (`packages/shared/app/assets/css/tokens.css`). Aucune
+  couleur en dur ailleurs (hexadécimal, `rgb()`, `hsl()`) : les transparences
+  s'obtiennent avec `color-mix()` à partir d'un jeton.
 - **THM-02** — Un test unitaire calcule le contraste de chaque association
   autorisée et échoue si l'une d'elles passe sous 4,5:1.
 - **THM-03** — Les composants n'exposent que les variantes prévues : bouton
   primaire (orange, texte vert), bouton secondaire (vert, texte blanc cassé),
-  bouton contour.
+  bouton contour (bordure et texte de la couleur du texte environnant, utilisable
+  sur fond clair comme sur fond vert).
 - **THM-04** — La typographie utilise au plus 2 familles de polices (titres et
   texte courant), auto-hébergées, avec `font-display: swap`. Choix des polices
   arrêté en phase 3 (maquettes).

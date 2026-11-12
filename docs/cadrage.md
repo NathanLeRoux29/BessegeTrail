@@ -38,7 +38,9 @@ remise en cause d'une décision doit être tracée ici.
 | Base de données | SQLite via Drizzle ORM (site en lecture seule, admin en lecture/écriture) |
 | Validation du contenu | Schémas Zod partagés entre site et admin |
 | Authentification | `nuxt-auth-utils` (session scellée, mots de passe hachés) |
-| UI back-office | Nuxt UI |
+| Styles | CSS simple : jetons en variables CSS dans le layer, styles `scoped` dans les composants |
+| Polices | Barlow Condensed et Inter, paquets Fontsource intégrés au build (aucun appel externe) |
+| UI back-office | Nuxt UI (interface de l'admin, hors aperçu), ses couleurs reprises des jetons du thème |
 | Images | `sharp` : conversion WebP et déclinaisons de tailles à l'envoi |
 | Tests | Vitest + `@nuxt/test-utils` (unitaires et API), Playwright + axe-core (bout en bout) |
 | Statistiques | Umami auto-hébergé, sans cookie |

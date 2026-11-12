@@ -1,8 +1,14 @@
 import { defineConfig } from 'vitest/config'
+import { defineVitestProject } from '@nuxt/test-utils/config'
 
 export default defineConfig({
   test: {
-    environment: 'node',
+    projects: [
+      // Fonctions pures : Vitest seul.
+      { test: { name: 'unit', include: ['test/*.test.ts'], environment: 'node' } },
+      // Composants : environnement Nuxt (auto-imports, NuxtLink, #components).
+      await defineVitestProject({ test: { name: 'nuxt', include: ['test/nuxt/**/*.test.ts'], environment: 'nuxt' } }),
+    ],
     // DEP-08 : la CI échoue sous 80 % de couverture. Les fichiers de route
     // (server/api, server/routes) restent minces et sont couverts par les tests
     // d'intégration des apps ; leur logique vit dans server/utils.
@@ -10,7 +16,7 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       include: ['**/*.{ts,vue}'],
-      exclude: ['test/**', '**/*.config.ts', 'server/api/**', 'server/routes/**'],
+      exclude: ['test/**', '.nuxt/**', '**/*.config.ts', 'server/api/**', 'server/routes/**'],
       thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 },
     },
   },

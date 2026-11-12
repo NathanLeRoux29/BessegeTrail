@@ -1,0 +1,4 @@
+/* Point d'entrée du thème, chargé par le layer dans le site et l'admin. */
+@import './fonts.css';
+@import './tokens.css';
+@import './base.css';

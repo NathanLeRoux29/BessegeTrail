@@ -71,7 +71,9 @@ dépendance ou la configuration d'une app change.
   `allowBuilds` dans `pnpm-workspace.yaml` (pnpm les bloque par défaut).
 - TypeScript reste en 6.x tant que `vue-tsc` ne prend pas en charge TypeScript 7.
 - Tests d'intégration d'une app : `@nuxt/test-utils/e2e` (`setup` construit et
-  démarre l'app). Tests unitaires du layer : Vitest seul.
+  démarre l'app). Tests du layer : fonctions pures dans `test/*.test.ts` (Vitest
+  seul, projet `unit`), composants dans `test/nuxt/*.test.ts` (environnement
+  `nuxt`, `mountSuspended`, projet `nuxt`).
 - Tests de bout en bout : `e2e/site/` et `e2e/admin/` (un projet Playwright par
   app), sur les images de production. Chaque page passe par
   `expectNoSeriousViolations` (`e2e/axe.ts`).
@@ -129,8 +131,13 @@ Prévues plus tard : `pnpm content:pull` et `pnpm content:reset` (#74).
 ## Conventions de code
 
 - TypeScript strict. Composants Vue en `<script setup lang="ts">`.
-- **Couleurs :** uniquement via les 5 jetons du thème (spec 04). Aucune couleur en
-  dur. Jamais de texte blanc sur l'orange.
+- **Couleurs :** uniquement via les 5 jetons du thème (spec 04,
+  `packages/shared/app/assets/css/tokens.css`). Aucune couleur en dur (hexadécimal,
+  `rgb()`, `hsl()`, vérifié par `test/theme.test.ts`) : transparences avec
+  `color-mix()`. Jamais de texte blanc sur l'orange.
+- **Styles :** CSS simple, `<style scoped>` dans les composants. Base commune
+  (polices, titres, focus, `prefers-reduced-motion`) dans le layer. Boutons :
+  `AppButton` (`primary`, `secondary`, `outline`), jamais un bouton stylé à la main.
 - **Accessibilité :** HTML sémantique, un seul `h1` par page, focus visible, cibles
   de 44 px minimum, `prefers-reduced-motion` respecté, texte alternatif obligatoire
   pour toute image porteuse d'information.
