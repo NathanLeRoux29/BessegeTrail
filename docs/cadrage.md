@@ -35,7 +35,7 @@ remise en cause d'une décision doit être tracée ici.
 |---|---|
 | Framework | Nuxt 4 (Vue 3, TypeScript), rendu serveur (SSR) |
 | Organisation | Monorepo pnpm : `apps/site`, `apps/admin`, `packages/shared` (layer Nuxt) |
-| Base de données | SQLite via Drizzle ORM (site en lecture seule, admin en lecture/écriture) |
+| Base de données | SQLite via Drizzle ORM et `better-sqlite3`, journal DELETE (site en lecture seule, admin en lecture/écriture et migrations au démarrage) |
 | Validation du contenu | Schémas Zod partagés entre site et admin |
 | Authentification | `nuxt-auth-utils` (session scellée, mots de passe hachés) |
 | Styles | CSS simple : jetons en variables CSS dans le layer, styles `scoped` dans les composants |

@@ -16,5 +16,8 @@ export default defineNuxtConfig({
     appName: '',
     // Version publiée (DEP-13), fournie par l'image Docker via NUXT_APP_VERSION.
     appVersion: 'dev',
+    // Base SQLite du contenu (NUXT_DATABASE_PATH) : /data/bessege.sqlite dans les
+    // images et Compose, .data/ à la racine du dépôt sans Docker.
+    databasePath: fileURLToPath(new URL('../../.data/bessege.sqlite', import.meta.url)),
   },
 })

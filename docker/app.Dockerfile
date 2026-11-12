@@ -29,7 +29,11 @@ LABEL org.opencontainers.image.source="https://github.com/NathanLeRoux29/Bessege
       org.opencontainers.image.version="${VERSION}"
 ENV NODE_ENV=production \
     PORT=3000 \
-    NUXT_APP_VERSION="${VERSION}"
+    NUXT_APP_VERSION="${VERSION}" \
+    NUXT_DATABASE_PATH=/data/bessege.sqlite
+# Dossier de la base SQLite (volume en production) : l'admin y crée la base,
+# le site la lit (volume monté en lecture seule).
+RUN mkdir /data && chown node:node /data
 WORKDIR /app
 # Fichiers appartenant à root, en lecture seule pour l'utilisateur node.
 COPY --from=build /repo/apps/${APP}/.output ./.output

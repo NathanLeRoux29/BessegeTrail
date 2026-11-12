@@ -60,10 +60,10 @@ en un clic de merge, sauvegardes et surveillance.
   (`lint`, `typecheck`, `test`, `build`, `e2e`), utilisable dans les règles de
   protection.
 - **DEP-08** — La CI échoue si la couverture de tests du layer partagé et du code
-  serveur de l'admin passe sous 80 %. Les fichiers de route restent minces (lecture
-  de l'entrée, appel d'une fonction de `server/utils`, réponse) : leur logique est
-  mesurée dans `server/utils`, et eux-mêmes sont couverts par les tests
-  d'intégration, hors mesure de couverture.
+  serveur de l'admin passe sous 80 %. Les fichiers de route et les plugins serveur
+  restent minces (lecture de l'entrée, appel d'une fonction de `server/utils`,
+  réponse) : leur logique est mesurée dans `server/utils`, et eux-mêmes sont
+  couverts par les tests d'intégration, hors mesure de couverture.
 - **DEP-09** — Un échec de CI sur `dev` ne bloque pas le push, mais il est visible
   sur le commit et notifié par e-mail.
 

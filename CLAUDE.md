@@ -60,6 +60,7 @@ Node 24 (`.nvmrc`) et pnpm 12 (champ `packageManager`). Depuis la racine :
 | `pnpm test` | Vitest dans les trois paquets (couverture minimale 80 %) et tests du dépôt (`test/`) |
 | `pnpm test:e2e` | Construit les images, les démarre (`docker/compose.e2e.yaml`, ports 14000 et 14001) et lance Playwright avec axe-core |
 | `pnpm test:docker` | Vérifie les images Docker (DEP-01, AUT-19) et l'environnement Compose (DEP-02). Lent, Docker requis |
+| `pnpm db:generate` | Écrit la migration Drizzle qui suit une modification du schéma (`packages/shared/server/database/schema.ts`) |
 | `docker build --file docker/app.Dockerfile --build-arg APP=site --tag bessege/site .` | Construit l'image d'une app (`APP=site` ou `admin`) |
 
 Avant de proposer un commit : `pnpm lint && pnpm typecheck && pnpm test`, plus
@@ -78,10 +79,10 @@ dépendance ou la configuration d'une app change.
   app), sur les images de production. Chaque page passe par
   `expectNoSeriousViolations` (`e2e/axe.ts`).
 - Couverture (DEP-08) : 80 % minimum sur `packages/shared` et `apps/admin/server`.
-  Un fichier de route (`server/api`, `server/routes`) reste mince : il valide
-  l'entrée, appelle une fonction de `server/utils` (testée unitairement) et rend
-  le résultat. Il n'est pas compté dans la couverture, mais il a ses tests
-  d'intégration.
+  Un fichier de route ou de plugin (`server/api`, `server/routes`,
+  `server/plugins`) reste mince : il valide l'entrée, appelle une fonction de
+  `server/utils` (testée unitairement) et rend le résultat. Il n'est pas compté
+  dans la couverture, mais il a ses tests d'intégration.
 - CI (`.github/workflows/ci.yml`) : jobs `lint` (avec commitlint), `typecheck`, `test`, `build`,
   `e2e`, plus `provenance` (`provenance.yml`, DEP-19). Ces noms sont les checks
   exigés sur `preprod` et `main` : ne pas les renommer sans mettre à jour
@@ -111,6 +112,14 @@ dépendance ou la configuration d'une app change.
 - Le rechargement à chaud consomme des surveillances de fichiers (inotify),
   partagées avec VS Code et les autres projets : en cas d'erreur `ENOSPC`, relever
   `fs.inotify.max_user_watches` et `max_user_instances` (voir le README).
+
+- Base SQLite (Drizzle, pilote `better-sqlite3`), chemin `NUXT_DATABASE_PATH`
+  (`/data/bessege.sqlite` en Docker, `.data/` sans Docker). L'admin la crée et
+  applique les migrations au démarrage (`server/plugins/database.ts`, migrations
+  intégrées au build par le module virtuel `#bessege/migrations`) ; le site
+  l'ouvre avec `openReadOnlyDatabase`, jamais `openWritableDatabase`. **Jamais de
+  mode WAL** : le site lit depuis un volume en lecture seule. Les tests
+  d'intégration passent une base temporaire (`setup({ env: { NUXT_DATABASE_PATH } })`).
 
 Prévues plus tard : `pnpm content:pull` et `pnpm content:reset` (#74).
 

@@ -41,6 +41,19 @@ pnpm dev          # Docker : site sur http://localhost:3000, admin sur http://lo
   sudo sysctl --system
   ```
 
+### Base de données
+
+Le contenu est dans une base SQLite (`NUXT_DATABASE_PATH`) : `/data/bessege.sqlite`
+dans Docker (volume `data`), `.data/bessege.sqlite` à la racine du dépôt sans
+Docker. L'admin la crée et applique les migrations à son démarrage ; le site
+l'ouvre en lecture seule.
+
+Après une modification de `packages/shared/server/database/schema.ts` :
+`pnpm db:generate`, puis versionner la migration créée dans
+`packages/shared/server/database/migrations/` (un test échoue sinon).
+
+### Vérifications
+
 Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test` (couverture minimale
 80 %), `pnpm test:e2e` (Playwright et axe-core sur les images Docker) et
 `pnpm test:docker` pour les images et l'environnement Docker. La CI GitHub

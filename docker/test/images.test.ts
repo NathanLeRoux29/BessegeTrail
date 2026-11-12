@@ -66,6 +66,23 @@ describe.each(['site', 'admin'])('image Docker %s', (app) => {
     expect(await response.json()).toEqual({ status: 'ok', service: app, version })
   })
 
+  it(app === 'admin'
+    ? 'CNT-26 : crée /data/bessege.sqlite et ses tables au démarrage'
+    : 'CNT-26 : ne crée pas de base au démarrage', async () => {
+    const container = docker('run', '--detach', image)
+    containers.push(container)
+    expect(await waitForHealth(container, 'healthy', 60_000)).toBe('healthy')
+
+    // node:sqlite (intégré à Node) lit la base sans passer par le code de l'app.
+    const tables = docker('exec', container, 'node', '--no-warnings', '--eval', `
+      const { existsSync } = require('node:fs')
+      if (!existsSync('/data/bessege.sqlite')) { console.log('absente'); process.exit() }
+      const db = new (require('node:sqlite').DatabaseSync)('/data/bessege.sqlite', { readOnly: true })
+      console.log(db.prepare("SELECT group_concat(name) AS names FROM (SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('blocks', 'users', 'page_versions') ORDER BY name)").get().names)
+    `)
+    expect(tables).toBe(app === 'admin' ? 'blocks,page_versions,users' : 'absente')
+  })
+
   it('DEP-13 : porte le numéro de version dans ses métadonnées', () => {
     expect(docker('inspect', '--format', '{{index .Config.Labels "org.opencontainers.image.version"}}', image)).toBe(version)
   })

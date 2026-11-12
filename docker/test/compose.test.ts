@@ -77,6 +77,11 @@ describe('environnement de développement Docker Compose', () => {
     expect(compose('exec', '-T', 'admin', 'sh', '-c', 'touch /data/write-check && touch /uploads/write-check').status).toBe(0)
   })
 
+  it('CNT-26 : l’admin crée la base dans le volume data, que le site voit', () => {
+    expect(compose('exec', '-T', 'admin', 'test', '-s', '/data/bessege.sqlite').status).toBe(0)
+    expect(compose('exec', '-T', 'site', 'test', '-s', '/data/bessege.sqlite').status).toBe(0)
+  })
+
   it('le site ne peut pas écrire dans la base ni dans les fichiers envoyés', () => {
     // Vérifie la cause du refus : un conteneur arrêté ferait aussi échouer la commande.
     for (const dir of ['/data', '/uploads']) {

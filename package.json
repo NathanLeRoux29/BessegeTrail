@@ -16,6 +16,7 @@
     "typecheck": "pnpm --recursive --parallel typecheck && tsc",
     "test": "pnpm --recursive test && vitest run",
     "test:docker": "vitest run --config docker/vitest.config.ts",
+    "db:generate": "pnpm --filter @bessege/shared db:generate",
     "test:e2e": "docker compose --file docker/compose.e2e.yaml build && playwright test"
   },
   "devDependencies": {

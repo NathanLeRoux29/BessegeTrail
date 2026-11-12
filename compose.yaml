@@ -12,6 +12,8 @@ x-nuxt-dev: &nuxt-dev
   user: node
   environment:
     NUXT_TELEMETRY_DISABLED: '1'
+    # Base SQLite dans le volume data (créée par l'admin, lue par le site).
+    NUXT_DATABASE_PATH: /data/bessege.sqlite
 
 services:
   site:

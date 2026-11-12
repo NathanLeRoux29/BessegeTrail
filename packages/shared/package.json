@@ -4,13 +4,16 @@
   "type": "module",
   "main": "./nuxt.config.ts",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate"
   },
   "devDependencies": {
     "@nuxt/test-utils": "catalog:",
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vue/test-utils": "^2.5.1",
+    "drizzle-kit": "^0.31.11",
     "happy-dom": "^21.0.4",
     "nuxt": "catalog:",
     "typescript": "catalog:",
@@ -19,6 +22,8 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
-    "@fontsource/barlow-condensed": "^5.3.0"
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "better-sqlite3": "^13.0.3",
+    "drizzle-orm": "catalog:"
   }
 }
