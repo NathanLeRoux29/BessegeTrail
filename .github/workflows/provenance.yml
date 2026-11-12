@@ -1,0 +1,38 @@
+# Provenance des PR (spec 09, DEP-19) : preprod n'accepte que dev, et main que
+# preprod, depuis ce dépôt (pas depuis un fork). Le job est un check exigé par le
+# ruleset de preprod et main (.github/rulesets/preprod-main.json).
+# Workflow séparé de ci : il est relancé quand la PR est modifiée (« edited »),
+# sinon changer la branche cible d'une PR déjà vérifiée garderait l'ancien check
+# vert, et relancer toute la CI à chaque changement de titre serait inutile.
+name: provenance
+
+on:
+  pull_request:
+    branches: [preprod, main]
+    types: [opened, synchronize, reopened, edited]
+
+permissions: {}
+
+jobs:
+  provenance:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Branche source de la PR
+        # Les noms de branches passent par l'environnement, jamais dans le script :
+        # un nom de branche choisi pour l'occasion ne peut pas injecter de commande.
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          case "$BASE" in
+            preprod) expected=dev ;;
+            main) expected=preprod ;;
+            *) exit 0 ;;
+          esac
+          if [ "$HEAD" != "$expected" ] || [ "$HEAD_REPO" != "$REPO" ]; then
+            echo "Une PR vers $BASE doit venir de la branche $expected de $REPO (reçu : $HEAD_REPO, branche $HEAD)." >&2
+            exit 1
+          fi
+          echo "Provenance correcte : $HEAD vers $BASE."

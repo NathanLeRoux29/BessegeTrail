@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { readdirSync, readFileSync } from 'node:fs'
 import { parse } from 'yaml'
 import { describe, expect, it } from 'vitest'
 
@@ -92,6 +93,60 @@ describe('workflow de CI', () => {
   })
 })
 
+describe('workflow de provenance', () => {
+  interface Trigger { branches?: string[], types?: string[] }
+  const provenanceFile = new URL('../.github/workflows/provenance.yml', import.meta.url)
+
+  function step(): Step | undefined {
+    return load<Workflow>(provenanceFile).jobs.provenance?.steps?.find(step => step.run)
+  }
+
+  // Joue le script du workflow comme sur GitHub, avec les variables d'une PR.
+  function check(head: string, base: string, headRepo = 'NathanLeRoux29/BessegeTrail'): number | null {
+    const env = { ...step()?.env, PATH: process.env.PATH, HEAD: head, BASE: base, HEAD_REPO: headRepo, REPO: 'NathanLeRoux29/BessegeTrail' }
+    return spawnSync('bash', ['-e', '-c', step()?.run ?? 'exit 99'], { env, encoding: 'utf8' }).status
+  }
+
+  it('DEP-19 : vérifie chaque PR vers preprod et main, y compris quand sa branche cible change', () => {
+    const trigger = load<Workflow>(provenanceFile).on.pull_request as Trigger | undefined
+
+    expect(trigger?.branches).toEqual(['preprod', 'main'])
+    expect(trigger?.types).toEqual(['opened', 'synchronize', 'reopened', 'edited'])
+  })
+
+  it('DEP-19 : accepte une PR de dev vers preprod', () => {
+    expect(check('dev', 'preprod')).toBe(0)
+  })
+
+  it('DEP-19 : accepte une PR de preprod vers main', () => {
+    expect(check('preprod', 'main')).toBe(0)
+  })
+
+  it('DEP-19 : refuse une PR de dev vers main', () => {
+    expect(check('dev', 'main')).toBe(1)
+  })
+
+  it('DEP-19 : refuse une PR d’une autre branche vers preprod', () => {
+    expect(check('correctif', 'preprod')).toBe(1)
+  })
+
+  it('DEP-19 : refuse une PR venant d’un fork, même depuis une branche nommée dev', () => {
+    expect(check('dev', 'preprod', 'quelquun/BessegeTrail')).toBe(1)
+  })
+
+  it('DEP-19 : lit les branches par des variables d’environnement, jamais dans le script', () => {
+    const { run, env } = step() ?? {}
+
+    expect(run).not.toContain('${{')
+    expect(env).toEqual({
+      BASE: '${{ github.base_ref }}',
+      HEAD: '${{ github.head_ref }}',
+      HEAD_REPO: '${{ github.event.pull_request.head.repo.full_name }}',
+      REPO: '${{ github.repository }}',
+    })
+  })
+})
+
 describe('workflow de release', () => {
   it('DEP-11 : s’exécute à chaque push sur dev, preprod et main, jamais sur une PR', () => {
     const { on } = load<Workflow>(releaseFile)
@@ -179,10 +234,16 @@ describe('Dependabot', () => {
   })
 })
 
+// Tous les workflows du dépôt, pour qu'un nouveau fichier ne passe pas entre les mailles.
+function workflowFiles(): URL[] {
+  const dir = new URL('../.github/workflows/', import.meta.url)
+  return readdirSync(dir).filter(name => name.endsWith('.yml')).map(name => new URL(name, dir))
+}
+
 describe('actions GitHub', () => {
   it('DEP-24 : les actions tierces sont épinglées par SHA de commit', () => {
     const steps = [
-      ...[workflowFile, releaseFile].flatMap(file => Object.values(load<Workflow>(file).jobs).flatMap(job => job.steps ?? [])),
+      ...workflowFiles().flatMap(file => Object.values(load<Workflow>(file).jobs).flatMap(job => job.steps ?? [])),
       ...load<{ runs: { steps: Step[] } }>(setupAction).runs.steps,
     ]
     const external = steps.map(step => step.uses).filter((uses): uses is string => !!uses && !uses.startsWith('./'))

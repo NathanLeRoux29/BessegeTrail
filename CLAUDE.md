@@ -81,9 +81,14 @@ dépendance ou la configuration d'une app change.
   le résultat. Il n'est pas compté dans la couverture, mais il a ses tests
   d'intégration.
 - CI (`.github/workflows/ci.yml`) : jobs `lint` (avec commitlint), `typecheck`, `test`, `build`,
-  `e2e`. Ces noms sont les checks exigés sur `preprod` et `main` : ne pas les
-  renommer. Actions tierces épinglées par SHA de commit (version en commentaire).
-  La CI tourne aussi sur les PR vers `dev` (celles de Dependabot).
+  `e2e`, plus `provenance` (`provenance.yml`, DEP-19). Ces noms sont les checks
+  exigés sur `preprod` et `main` : ne pas les renommer sans mettre à jour
+  `.github/rulesets/preprod-main.json` et réappliquer la règle (README). Actions
+  tierces épinglées par SHA de commit (version en commentaire). La CI tourne
+  aussi sur les PR vers `dev` (celles de Dependabot).
+- Rulesets (`.github/rulesets/`) : versionnés et testés, appliqués avec `gh api`
+  (action GitHub : accord explicite de l'utilisateur). Aucune exception, pas de
+  push direct sur `preprod` ni `main`, même pour un correctif urgent.
 - Sécurité GitHub : Dependabot (`.github/dependabot.yml`, chaque lundi, PR vers
   `dev`, majeures de Node, `@types/node`, PostgreSQL, TypeScript et du preset
   `conventionalcommits` ignorées : chaque exclusion est justifiée en commentaire

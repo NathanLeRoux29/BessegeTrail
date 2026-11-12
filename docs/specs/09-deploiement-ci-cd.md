@@ -111,7 +111,9 @@ en un clic de merge, sauvegardes et surveillance.
   à jour avec la cible » n'est pas activée : avec des merge commits, elle
   obligerait à refusionner `preprod` dans `dev` avant chaque PR.
 - **DEP-19** — `preprod` n'accepte que des PR venant de `dev`, et `main` que des PR
-  venant de `preprod` (vérifié par un check de CI).
+  venant de `preprod`, depuis ce dépôt et non depuis un fork. Vérifié par le check
+  `provenance` (workflow séparé, relancé quand la branche cible d'une PR change),
+  exigé lui aussi par la règle de `main` et `preprod`.
 - **DEP-20** — `dev` : push direct autorisé, force-push et suppression interdits.
 
 ### Sécurité et maintenance GitHub

@@ -45,7 +45,7 @@ Vérifications : `pnpm lint`, `pnpm typecheck`, `pnpm test` (couverture minimale
 80 %), `pnpm test:e2e` (Playwright et axe-core sur les images Docker) et
 `pnpm test:docker` pour les images et l'environnement Docker. La CI GitHub
 Actions lance les mêmes vérifications à chaque push sur `dev` et sur chaque PR
-vers `preprod` ou `main`.
+vers `dev`, `preprod` ou `main`.
 
 Avant le premier `pnpm test:e2e` : `pnpm exec playwright install chromium`.
 
@@ -96,6 +96,34 @@ commitlint, en local et en CI) : les versions sont calculées automatiquement pa
 semantic-release, et les images Docker sont publiées sur GHCR avec ce numéro.
 Après chaque mise en production, fusionner `main` dans `dev`
 (`git merge origin/main`).
+
+### Protection des branches
+
+Les règles sont versionnées dans [.github/rulesets/](.github/rulesets/) (format
+de l'API GitHub, vérifié par `test/rulesets.test.ts`) :
+
+- `preprod` et `main` : PR obligatoire, fusionnée en *merge commit*, checks
+  `lint`, `typecheck`, `test`, `build`, `e2e` et `provenance` au vert ; ni push
+  direct, ni force-push, ni suppression. Aucune exception, même pour l'admin.
+- `provenance` : `preprod` n'accepte que les PR venant de `dev`, `main` que celles
+  venant de `preprod` (`.github/workflows/provenance.yml`).
+- `dev` : push direct autorisé, force-push et suppression interdits.
+
+Appliquer les règles (une fois), puis après chaque modification d'un fichier :
+
+```bash
+repo=NathanLeRoux29/BessegeTrail
+# Création
+gh api --method POST "repos/$repo/rulesets" --input .github/rulesets/preprod-main.json
+gh api --method POST "repos/$repo/rulesets" --input .github/rulesets/dev.json
+# Mise à jour : identifiants donnés par la liste
+gh api "repos/$repo/rulesets" --jq '.[] | "\(.id) \(.name)"'
+gh api --method PUT "repos/$repo/rulesets/<id>" --input .github/rulesets/dev.json
+```
+
+Renommer un job de `ci.yml` ou de `provenance.yml` impose de mettre à jour
+`preprod-main.json` (le test échoue sinon) et de réappliquer la règle. En cas de
+blocage, une règle se désactive dans *Settings → Rules → Rulesets*.
 
 Le code monte vers la production par Git. Le contenu saisi dans le back-office
 reste sur le serveur et ne circule que dans l'autre sens (production → préprod →
