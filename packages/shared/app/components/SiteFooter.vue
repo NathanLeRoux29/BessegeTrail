@@ -162,5 +162,14 @@ const dateAndPlace = computed(() => [props.settings.dateLabel, props.settings.pl
 
 @media (max-width: 760px) {
   .footer-grid { grid-template-columns: 1fr; }
+
+  /* SOC-11 : cibles tactiles de 44 px de haut. */
+  .site-footer ul:not(.socials) { gap: 0; }
+
+  .site-footer ul:not(.socials) a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }
 </style>

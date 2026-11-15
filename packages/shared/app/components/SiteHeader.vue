@@ -141,16 +141,20 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 
 .brand {
   display: flex;
-  flex: none;
+  /* Sur un écran étroit, le titre passe sur deux lignes (SOC-10). */
+  flex: 0 1 auto;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+  min-height: 44px;
   color: inherit;
   text-decoration: none;
 }
 
-.brand img { width: 44px; height: 44px; }
+.brand img { flex: none; width: 44px; height: 44px; }
 
 .brand span {
+  overflow-wrap: anywhere;
   font-family: var(--font-title);
   font-size: 1.45rem;
   font-weight: 800;
@@ -257,5 +261,16 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
     clip-path: inset(50%);
     white-space: nowrap;
   }
+}
+
+/* Très petits écrans (320 px) : tout tient sur une ligne sans couper le titre. */
+@media (max-width: 359px) {
+  .site-header__inner { gap: 8px; }
+
+  .brand { gap: 8px; }
+
+  .brand span { font-size: 1rem; }
+
+  .header-cta { padding: 8px 12px; }
 }
 </style>

@@ -25,7 +25,7 @@ write('INSERT INTO blocks (key, published, draft) VALUES (?, ?, ?)', 'home.conta
   JSON.stringify({ visible: true, title: 'Écrivez-nous' }),
   JSON.stringify({ visible: true, title: 'Brouillon non publié' }))
 
-describe('GET /api/content (site)', async () => {
+describe('site avec une base', async () => {
   await setup({ rootDir: fileURLToPath(new URL('..', import.meta.url)), env: { NUXT_DATABASE_PATH: path } })
 
   afterAll(() => rmSync(dir, { recursive: true, force: true }))
@@ -47,5 +47,11 @@ describe('GET /api/content (site)', async () => {
 
     expect(title).toBe('Nouveau titre')
     expect(Date.now() - publishedAt).toBeLessThan(10_000)
+  })
+
+  it('SOC-25 : le document a lang="fr"', async () => {
+    const html = await $fetch<string>('/')
+
+    expect(html).toMatch(/<html[^>]* lang="fr"/)
   })
 })

@@ -10,12 +10,23 @@ const hiddenTargets = hiddenMenuTargets(published)
 
 <template>
   <div class="site-layout">
+    <!-- SOC-16 : premier élément focusable, il saute le header. -->
+    <a
+      class="skip-link"
+      href="#contenu"
+    >Aller au contenu</a>
     <SiteHeader
       :header="published.header"
       :register-url="published.settings.registerUrl"
       :hidden-targets="hiddenTargets"
     />
-    <slot />
+    <!-- Cible du lien d'évitement : chaque page rend son contenu ici. -->
+    <main
+      id="contenu"
+      tabindex="-1"
+    >
+      <slot />
+    </main>
     <SiteFooter
       :settings="published.settings"
       :footer="published.footer"
@@ -23,3 +34,23 @@ const hiddenTargets = hiddenMenuTargets(published)
     />
   </div>
 </template>
+
+<style scoped>
+/* Hors de l'écran, il apparaît en haut à gauche quand il reçoit le focus. */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 20px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  background: var(--color-primary);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.skip-link:focus { top: 0; }
+
+/* Cible d'un saut, pas un élément interactif : pas de contour. */
+main:focus { outline: none; }
+</style>

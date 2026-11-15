@@ -88,7 +88,11 @@ dépendance ou la configuration d'une app change.
 - Tests de bout en bout : `e2e/site/` et `e2e/admin/` (un projet Playwright par
   app), sur les images de production. L'admin y remplit la base avec le contenu
   de démo, que le site lit (volume `data` partagé). Chaque page passe par
-  `expectNoSeriousViolations` (`e2e/axe.ts`).
+  `expectNoSeriousViolations` (`e2e/axe.ts`). **Toute nouvelle page du site
+  s'ajoute à `e2e/site/pages.ts`** : `accessibilite.spec.ts` y vérifie le socle
+  (SOC-10, 11, 15 à 17, 19, 20 : débordement, cibles de 44 px, titres, focus…).
+- Pages du site : le layout fournit le lien « Aller au contenu » et
+  `<main id="contenu">` ; une page n'a pas de `<main>`, mais un seul `h1`.
 - Couverture (DEP-08) : 80 % minimum sur `packages/shared` et `apps/admin/server`.
   Un fichier de route ou de plugin (`server/api`, `server/routes`,
   `server/plugins`) reste mince : il valide l'entrée, appelle une fonction de
