@@ -16,5 +16,10 @@ const hiddenTargets = hiddenMenuTargets(published)
       :hidden-targets="hiddenTargets"
     />
     <slot />
+    <SiteFooter
+      :settings="published.settings"
+      :footer="published.footer"
+      :header="published.header"
+    />
   </div>
 </template>
