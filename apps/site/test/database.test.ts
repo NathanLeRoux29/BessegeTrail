@@ -26,6 +26,12 @@ describe('base de données (site)', async () => {
     expect(existsSync(join(dir, 'data'))).toBe(false)
   })
 
+  it('CNT-27 : sans base, l’accueil répond 503 (contenu indisponible)', async () => {
+    const response = await fetch(url('/'))
+
+    expect(response.status).toBe(503)
+  })
+
   it('CNT-16 : le site sert les fichiers du contenu de démo', async () => {
     const response = await fetch(url('/demo/images/banniere-960.webp'))
 

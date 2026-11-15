@@ -32,8 +32,9 @@ responsive, performance, accessibilité et référencement.
   une page d'épreuve, ou une URL externe. Une URL externe
   s'ouvre dans un nouvel onglet avec `rel="noopener"`.
 - **SOC-03** — Un élément du menu qui cible une section masquée n'est pas affiché.
-- **SOC-04** — En dessous de 768 px de large, le menu est replié derrière un bouton
-  « Menu » accessible (`aria-expanded`, fermeture avec Échap, focus géré). Le bouton
+- **SOC-04** — En dessous de 1080 px de large (largeur sous laquelle le menu ne
+  tient plus sur une ligne), le menu est replié derrière un bouton « Menu »
+  accessible (`aria-expanded`, fermeture avec Échap, focus géré). Le bouton
   d'action reste visible.
 - **SOC-05** — Le header reste visible en haut de l'écran pendant le défilement.
 

@@ -13,6 +13,12 @@ services:
         APP: site
     ports:
       - 127.0.0.1:14000:3000
+    volumes:
+      # Base créée et remplie (contenu de démo) par l'admin, lue par le site.
+      - data:/data:ro
+    depends_on:
+      admin:
+        condition: service_healthy
 
   admin:
     image: bessege/admin:e2e
@@ -23,3 +29,8 @@ services:
         APP: admin
     ports:
       - 127.0.0.1:14001:3000
+    volumes:
+      - data:/data
+
+volumes:
+  data:

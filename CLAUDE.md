@@ -86,7 +86,8 @@ dépendance ou la configuration d'une app change.
   seul, projet `unit`), composants dans `test/nuxt/*.test.ts` (environnement
   `nuxt`, `mountSuspended`, projet `nuxt`).
 - Tests de bout en bout : `e2e/site/` et `e2e/admin/` (un projet Playwright par
-  app), sur les images de production. Chaque page passe par
+  app), sur les images de production. L'admin y remplit la base avec le contenu
+  de démo, que le site lit (volume `data` partagé). Chaque page passe par
   `expectNoSeriousViolations` (`e2e/axe.ts`).
 - Couverture (DEP-08) : 80 % minimum sur `packages/shared` et `apps/admin/server`.
   Un fichier de route ou de plugin (`server/api`, `server/routes`,

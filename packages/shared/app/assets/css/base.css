@@ -1,6 +1,15 @@
 /* Styles de base communs au site et à l'aperçu du back-office (THM-05). */
 *, *::before, *::after { box-sizing: border-box; }
 
+:root {
+  /* Hauteur du header collant (SOC-05) et marges latérales des pages. */
+  --header-height: 72px;
+  --gutter: clamp(16px, 4vw, 32px);
+}
+
+/* Une ancre du menu ne passe pas sous le header collant. */
+html { scroll-padding-top: calc(var(--header-height) + 16px); }
+
 body {
   margin: 0;
   font-family: var(--font-text);
