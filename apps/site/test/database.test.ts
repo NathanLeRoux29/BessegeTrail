@@ -18,6 +18,14 @@ describe('base de données (site)', async () => {
     expect(existsSync(join(dir, 'data'))).toBe(false)
   })
 
+  it('CNT-27 : sans base, le contenu est indisponible (503) et la base n’est pas créée', async () => {
+    const response = await fetch(url('/api/content'))
+
+    expect(response.status).toBe(503)
+    expect(await response.json()).toMatchObject({ message: 'Contenu indisponible' })
+    expect(existsSync(join(dir, 'data'))).toBe(false)
+  })
+
   it('CNT-16 : le site sert les fichiers du contenu de démo', async () => {
     const response = await fetch(url('/demo/images/banniere-960.webp'))
 

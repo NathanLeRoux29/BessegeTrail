@@ -201,3 +201,6 @@ export type BlockKey = keyof typeof blockSchemas
 export type BlockContent<K extends BlockKey> = z.output<typeof blockSchemas[K]>
 
 export const blockKeys = Object.keys(blockSchemas) as BlockKey[]
+
+// Contenu publié de tous les blocs, tel que le site le lit (CNT-08).
+export type PublishedContent = { [K in BlockKey]: BlockContent<K> }

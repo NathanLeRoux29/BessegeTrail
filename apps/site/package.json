@@ -18,6 +18,8 @@
   "devDependencies": {
     "@nuxt/test-utils": "catalog:",
     "@types/node": "catalog:",
+    "drizzle-orm": "catalog:",
+    "happy-dom": "^21.0.4",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "vue-tsc": "catalog:"

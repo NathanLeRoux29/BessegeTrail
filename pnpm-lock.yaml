@@ -297,6 +297,12 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 24.19.2
+      drizzle-orm:
+        specifier: 'catalog:'
+        version: 0.45.4(@types/better-sqlite3@9.6.0)(better-sqlite3@13.0.3)
+      happy-dom:
+        specifier: ^21.0.4
+        version: 21.0.4
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

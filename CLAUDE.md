@@ -42,6 +42,10 @@ docs/             Cadrage, specs, maquettes, exploitation.
 
 - Le back-office importe les **mêmes composants** que le site : l'aperçu est le
   rendu réel. Ne jamais dupliquer un composant de section dans `apps/admin`.
+- Les composants de section reçoivent leur contenu **par props** : ils ne lisent
+  jamais la base. Les pages du site le prennent dans `usePublishedContent()`
+  (route `GET /api/content`, versions publiées seulement, sans cache, CNT-08 et
+  CNT-11) ; l'aperçu de l'admin leur passe les brouillons.
 - Un bloc de contenu = une clé + un schéma Zod dans `packages/shared`, utilisé à la
   fois pour valider (admin) et pour typer le rendu (site). Schémas dans
   `packages/shared/shared/content/` (`blocks.ts`, types de champs dans
@@ -76,7 +80,9 @@ dépendance ou la configuration d'une app change.
   `allowBuilds` dans `pnpm-workspace.yaml` (pnpm les bloque par défaut).
 - TypeScript reste en 6.x tant que `vue-tsc` ne prend pas en charge TypeScript 7.
 - Tests d'intégration d'une app : `@nuxt/test-utils/e2e` (`setup` construit et
-  démarre l'app). Tests du layer : fonctions pures dans `test/*.test.ts` (Vitest
+  démarre l'app), dans `test/*.test.ts` (projet `integration` pour le site) ;
+  composables du site dans `test/nuxt/` (projet `nuxt`, import explicite : pas
+  d'auto-import dans les tests). Tests du layer : fonctions pures dans `test/*.test.ts` (Vitest
   seul, projet `unit`), composants dans `test/nuxt/*.test.ts` (environnement
   `nuxt`, `mountSuspended`, projet `nuxt`).
 - Tests de bout en bout : `e2e/site/` et `e2e/admin/` (un projet Playwright par
