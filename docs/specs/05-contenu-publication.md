@@ -59,6 +59,9 @@ signifie « non renseigné » : l'élément correspondant n'est pas affiché.
 
 - **CNT-05** — Les textes mis en forme acceptent uniquement : paragraphes, titres de
   niveau 3, gras, italique, liens, listes à puces et numérotées.
+  Dans un texte collé, les titres de tout niveau deviennent des titres de
+  niveau 3 et les autres balises sont retirées en gardant leur texte. Un lien
+  n'est gardé que vers `https://`, `mailto:` ou une page du site.
 - **CNT-06** — Le HTML est assaini côté serveur à l'enregistrement **et** au rendu
   (liste blanche de balises et d'attributs). Un test vérifie qu'un `<script>`, un
   attribut `onclick` ou un lien `javascript:` sont supprimés.

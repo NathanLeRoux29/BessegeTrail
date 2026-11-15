@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { sanitizeRichText } from './rich-text'
 import { homeAnchors, infosAnchors, races } from './site'
 
 // Types de champs communs aux schémas des blocs (spec 05).
@@ -17,9 +18,10 @@ export function requiredText(max: number, fallback: string) {
   return z.string().trim().min(1, 'Ce champ est obligatoire').max(max).default(fallback)
 }
 
-// Texte mis en forme, en HTML (assaini par l'assainisseur partagé, CNT-06).
+// Texte mis en forme, en HTML, assaini dès la validation (CNT-06) : rien ne peut
+// être enregistré sans passer par l'assainisseur.
 export function richText(max = 10_000) {
-  return z.string().max(max).default('')
+  return z.string().max(max).transform(sanitizeRichText).default('')
 }
 
 // Lien externe : https:// ou mailto: uniquement (CNT-04).

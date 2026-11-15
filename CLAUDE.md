@@ -154,7 +154,10 @@ Prévues plus tard : `pnpm content:pull` et `pnpm content:reset` (#74).
 - **Accessibilité :** HTML sémantique, un seul `h1` par page, focus visible, cibles
   de 44 px minimum, `prefers-reduced-motion` respecté, texte alternatif obligatoire
   pour toute image porteuse d'information.
-- **Sécurité :** jamais de `v-html` sans passer par l'assainisseur partagé (CNT-06).
+- **Sécurité :** un texte mis en forme s'affiche uniquement avec le composant
+  `RichText`, qui l'assainit au rendu ; aucun autre `v-html` (vérifié par
+  `test/rich-text.test.ts`). Le champ `richText()` l'assainit aussi à la
+  validation (`shared/content/rich-text.ts`, bibliothèque `xss`, CNT-06).
   Valider toute entrée côté serveur avec le schéma Zod. Aucun secret dans le code :
   variables d'environnement en local, GitHub Environments en CI.
 - Un lien externe s'ouvre dans un nouvel onglet avec `rel="noopener"` et le
