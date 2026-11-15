@@ -56,7 +56,8 @@ ACC-18 à ACC-20 et ACC-25 à ACC-27 y ont été déplacés (INF-07 à INF-12).
 
 - **ACC-05** — La bannière affiche une image de fond, le nom de l'événement (`h1`),
   la date et le lieu, un sous-titre, et un bouton d'action principal (libellé et
-  lien modifiables, par défaut « S'inscrire »).
+  lien modifiables, par défaut « S'inscrire »). Sans lien, le bouton mène au lien
+  d'inscription général des paramètres.
 - **ACC-06** — Le texte reste lisible sur l'image grâce à un voile sombre
   (contraste ≥ 4,5:1 entre le texte et le voile).
 - **ACC-07** — Le compte à rebours affiche les jours, heures et minutes restants

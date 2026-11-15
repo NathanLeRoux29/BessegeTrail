@@ -43,7 +43,11 @@ docs/             Cadrage, specs, maquettes, exploitation.
 - Le back-office importe les **mêmes composants** que le site : l'aperçu est le
   rendu réel. Ne jamais dupliquer un composant de section dans `apps/admin`.
 - Un bloc de contenu = une clé + un schéma Zod dans `packages/shared`, utilisé à la
-  fois pour valider (admin) et pour typer le rendu (site).
+  fois pour valider (admin) et pour typer le rendu (site). Schémas dans
+  `packages/shared/shared/content/` (`blocks.ts`, types de champs dans
+  `fields.ts`) ; limites lues par `z.toJSONSchema()`. Tout champ a une valeur par
+  défaut (CNT-30) ; un champ facultatif vide n'est pas affiché ; les liens externes
+  passent par `externalUrl` (https/mailto), les fichiers par `localPath`.
 
 ## Commandes
 

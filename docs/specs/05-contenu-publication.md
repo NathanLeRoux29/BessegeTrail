@@ -22,6 +22,12 @@ schéma Zod défini dans `packages/shared`.
 
 Chaque bloc stocke une **version publiée** et éventuellement un **brouillon**.
 
+Les schémas sont dans `packages/shared/shared/content/blocks.ts`. Les champs et
+leurs limites reprennent la maquette de l'éditeur. Chaque page (l'accueil via
+`settings`, Infos pratiques, chaque épreuve, chaque page légale) a un titre et une
+description pour les moteurs de recherche (SOC-21). Un champ facultatif vide
+signifie « non renseigné » : l'élément correspondant n'est pas affiché.
+
 ## User stories
 
 - En tant qu'éditeur, je veux préparer mes modifications sans qu'elles soient

@@ -25,7 +25,8 @@ responsive, performance, accessibilité et référencement.
 
 - **SOC-01** — Le header affiche le logo (lien vers l'accueil), le titre du site,
   les éléments du menu et un bouton d'action (libellé et lien modifiables, par
-  défaut « S'inscrire »).
+  défaut « S'inscrire »). Sans lien, le bouton mène au lien d'inscription général
+  des paramètres.
 - **SOC-02** — Chaque élément du menu a un libellé et une cible : une ancre de
   section de l'accueil, la page Infos pratiques ou une de ses sections (spec 10),
   une page d'épreuve, ou une URL externe. Une URL externe
