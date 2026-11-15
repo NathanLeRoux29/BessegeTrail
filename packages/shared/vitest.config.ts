@@ -14,12 +14,13 @@ export default defineConfig({
     // et sont couverts par les tests d'intégration des apps ; leur logique vit
     // dans server/utils. Le schéma de la base est déclaratif : drizzle-kit
     // l'évalue dans le test des migrations, un autre processus que la couverture
-    // ne voit pas.
+    // ne voit pas. Le script de génération des fichiers de démo est lancé à la
+    // main ; son résultat est vérifié par test/demo-content.test.ts.
     coverage: {
       enabled: true,
       provider: 'v8',
       include: ['**/*.{ts,vue}'],
-      exclude: ['test/**', '.nuxt/**', '**/*.config.ts', 'server/api/**', 'server/routes/**', 'server/plugins/**', 'server/database/**'],
+      exclude: ['test/**', '.nuxt/**', '**/*.config.ts', 'server/api/**', 'server/routes/**', 'server/plugins/**', 'server/database/**', 'scripts/**'],
       thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 },
     },
   },

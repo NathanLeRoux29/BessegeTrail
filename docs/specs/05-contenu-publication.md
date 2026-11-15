@@ -94,11 +94,17 @@ signifie « non renseigné » : l'élément correspondant n'est pas affiché.
 
 - **CNT-16** — Au premier démarrage sur une base vide, tous les blocs sont créés
   avec un contenu de démonstration publié (textes, images libres de droits, un GPX
-  d'exemple).
+  d'exemple par épreuve, un règlement en PDF).
 - **CNT-17** — Le contenu de démo est défini dans des fichiers versionnés du layer
   partagé et validé par les mêmes schémas (un test le vérifie).
-- **CNT-18** — Le chargement du contenu de démo ne s'exécute jamais sur une base
-  qui contient déjà du contenu.
+- **CNT-18** — Le chargement du contenu de démo n'écrase jamais un bloc présent
+  en base. Sur une base qui contient déjà du contenu, seul un bloc absent (section
+  ajoutée depuis, CNT-30) reçoit sa démo, masqué s'il est masquable.
+
+Le contenu de démo est dans `packages/shared/shared/content/demo/`, ses fichiers
+(photos WebP, logos, GPX, PDF) dans `packages/shared/public/demo/`, servis par les
+deux apps sous `/demo/…`. Photos du domaine public ou sous licence CC0, sources
+dans `public/demo/CREDITS.md`.
 
 ### Fichiers
 

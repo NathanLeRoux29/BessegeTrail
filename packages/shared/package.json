@@ -16,6 +16,7 @@
     "drizzle-kit": "^0.31.11",
     "happy-dom": "^21.0.4",
     "nuxt": "catalog:",
+    "sharp": "^0.35.5",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:"

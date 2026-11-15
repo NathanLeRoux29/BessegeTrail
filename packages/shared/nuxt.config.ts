@@ -20,4 +20,9 @@ export default defineNuxtConfig({
     // images et Compose, .data/ à la racine du dépôt sans Docker.
     databasePath: fileURLToPath(new URL('../../.data/bessege.sqlite', import.meta.url)),
   },
+  // Schémas et contenu de démo des blocs (spec 05), importés par les deux apps.
+  // « #shared » désigne le dossier shared/ de chaque app, pas celui du layer.
+  alias: {
+    '#bessege/content': fileURLToPath(new URL('./shared/content', import.meta.url)),
+  },
 })

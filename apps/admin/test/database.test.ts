@@ -5,6 +5,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { fileURLToPath } from 'node:url'
 import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from '@nuxt/test-utils/e2e'
+import { blockKeys } from '../../../packages/shared/shared/content/blocks'
 
 // Base vide, dans un dossier qui n'existe pas encore.
 const dir = mkdtempSync(join(tmpdir(), 'bessege-admin-'))
@@ -21,5 +22,15 @@ describe('base de données (admin)', async () => {
     db.close()
 
     expect(tables.map(table => table.name)).toEqual(['blocks', 'page_versions', 'users'])
+  })
+
+  it('CNT-16 : l’admin démarré sur une base vide publie le contenu de démo de chaque bloc', () => {
+    const db = new DatabaseSync(path, { readOnly: true })
+    const rows = db.prepare('SELECT key, published, draft FROM blocks ORDER BY key').all()
+    db.close()
+
+    expect(rows.map(row => row.key)).toEqual([...blockKeys].sort())
+    expect(rows.every(row => row.draft === null)).toBe(true)
+    expect(JSON.parse(rows.find(row => row.key === 'settings')!.published as string)).toMatchObject({ eventName: 'Trail de Bessèges' })
   })
 })

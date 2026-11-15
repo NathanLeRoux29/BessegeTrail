@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Trail de Bessèges, contenu de démonstration" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>Marche solidaire (tracé fictif)</name></metadata>
+  <trk>
+    <name>Marche solidaire (tracé fictif)</name>
+    <trkseg>
+      <trkpt lat="44.292500" lon="4.097500"><ele>160.0</ele></trkpt>
+      <trkpt lat="44.292005" lon="4.098383"><ele>160.3</ele></trkpt>
+      <trkpt lat="44.291362" lon="4.099167"><ele>161.3</ele></trkpt>
+      <trkpt lat="44.290403" lon="4.099859"><ele>162.9</ele></trkpt>
+      <trkpt lat="44.289157" lon="4.100640"><ele>165.2</ele></trkpt>
+      <trkpt lat="44.287881" lon="4.101720"><ele>168.0</ele></trkpt>
+      <trkpt lat="44.286963" lon="4.103167"><ele>171.5</ele></trkpt>
+      <trkpt lat="44.286726" lon="4.104837"><ele>175.4</ele></trkpt>
+      <trkpt lat="44.287258" lon="4.106447"><ele>179.9</ele></trkpt>
+      <trkpt lat="44.288364" lon="4.107755"><ele>184.7</ele></trkpt>
+      <trkpt lat="44.289671" lon="4.108698"><ele>190.0</ele></trkpt>
+      <trkpt lat="44.290823" lon="4.109417"><ele>195.6</ele></trkpt>
+      <trkpt lat="44.291647" lon="4.110131"><ele>201.5</ele></trkpt>
+      <trkpt lat="44.292205" lon="4.110965"><ele>207.5</ele></trkpt>
+      <trkpt lat="44.292704" lon="4.111844"><ele>213.7</ele></trkpt>
+      <trkpt lat="44.293334" lon="4.112541"><ele>220.0</ele></trkpt>
+      <trkpt lat="44.294148" lon="4.112851"><ele>226.3</ele></trkpt>
+      <trkpt lat="44.295044" lon="4.112780"><ele>232.5</ele></trkpt>
+      <trkpt lat="44.295863" lon="4.112606"><ele>238.5</ele></trkpt>
+      <trkpt lat="44.296518" lon="4.112756"><ele>244.4</ele></trkpt>
+      <trkpt lat="44.297064" lon="4.113564"><ele>250.0</ele></trkpt>
+      <trkpt lat="44.297667" lon="4.115048"><ele>255.3</ele></trkpt>
+      <trkpt lat="44.298486" lon="4.116856"><ele>260.1</ele></trkpt>
+      <trkpt lat="44.299558" lon="4.118414"><ele>264.6</ele></trkpt>
+      <trkpt lat="44.300769" lon="4.119210"><ele>268.5</ele></trkpt>
+      <trkpt lat="44.301922" lon="4.119035"><ele>272.0</ele></trkpt>
+      <trkpt lat="44.302866" lon="4.118058"><ele>274.8</ele></trkpt>
+      <trkpt lat="44.303584" lon="4.116692"><ele>277.1</ele></trkpt>
+      <trkpt lat="44.304189" lon="4.115341"><ele>278.7</ele></trkpt>
+      <trkpt lat="44.304816" lon="4.114197"><ele>279.7</ele></trkpt>
+      <trkpt lat="44.305498" lon="4.113184"><ele>280.0</ele></trkpt>
+      <trkpt lat="44.306105" lon="4.112083"><ele>279.7</ele></trkpt>
+      <trkpt lat="44.306410" lon="4.110733"><ele>278.7</ele></trkpt>
+      <trkpt lat="44.306234" lon="4.109164"><ele>277.1</ele></trkpt>
+      <trkpt lat="44.305597" lon="4.107582"><ele>274.8</ele></trkpt>
+      <trkpt lat="44.304751" lon="4.106223"><ele>272.0</ele></trkpt>
+      <trkpt lat="44.304077" lon="4.105182"><ele>268.5</ele></trkpt>
+      <trkpt lat="44.303897" lon="4.104341"><ele>264.6</ele></trkpt>
+      <trkpt lat="44.304298" lon="4.103447"><ele>260.1</ele></trkpt>
+      <trkpt lat="44.305086" lon="4.102283"><ele>255.3</ele></trkpt>
+      <trkpt lat="44.305892" lon="4.100814"><ele>250.0</ele></trkpt>
+      <trkpt lat="44.306365" lon="4.099207"><ele>244.4</ele></trkpt>
+      <trkpt lat="44.306340" lon="4.097707"><ele>238.5</ele></trkpt>
+      <trkpt lat="44.305889" lon="4.096464"><ele>232.5</ele></trkpt>
+      <trkpt lat="44.305227" lon="4.095424"><ele>226.3</ele></trkpt>
+      <trkpt lat="44.304560" lon="4.094381"><ele>220.0</ele></trkpt>
+      <trkpt lat="44.303954" lon="4.093152"><ele>213.7</ele></trkpt>
+      <trkpt lat="44.303322" lon="4.091757"><ele>207.5</ele></trkpt>
+      <trkpt lat="44.302523" lon="4.090489"><ele>201.5</ele></trkpt>
+      <trkpt lat="44.301487" lon="4.089788"><ele>195.6</ele></trkpt>
+      <trkpt lat="44.300287" lon="4.089996"><ele>190.0</ele></trkpt>
+      <trkpt lat="44.299109" lon="4.091138"><ele>184.7</ele></trkpt>
+      <trkpt lat="44.298131" lon="4.092866"><ele>179.9</ele></trkpt>
+      <trkpt lat="44.297411" lon="4.094608"><ele>175.4</ele></trkpt>
+      <trkpt lat="44.296852" lon="4.095848"><ele>171.5</ele></trkpt>
+      <trkpt lat="44.296279" lon="4.096373"><ele>168.0</ele></trkpt>
+      <trkpt lat="44.295558" lon="4.096344"><ele>165.2</ele></trkpt>
+      <trkpt lat="44.294691" lon="4.096164"><ele>162.9</ele></trkpt>
+      <trkpt lat="44.293809" lon="4.096225"><ele>161.3</ele></trkpt>
+      <trkpt lat="44.293063" lon="4.096701"><ele>160.3</ele></trkpt>
+      <trkpt lat="44.292500" lon="4.097500"><ele>160.0</ele></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

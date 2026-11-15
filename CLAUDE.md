@@ -121,7 +121,12 @@ dépendance ou la configuration d'une app change.
   (`/data/bessege.sqlite` en Docker, `.data/` sans Docker). L'admin la crée et
   applique les migrations au démarrage (`server/plugins/database.ts`, migrations
   intégrées au build par le module virtuel `#bessege/migrations`) ; le site
-  l'ouvre avec `openReadOnlyDatabase`, jamais `openWritableDatabase`. **Jamais de
+  l'ouvre avec `openReadOnlyDatabase`, jamais `openWritableDatabase`. Il charge
+  ensuite le contenu de démo des blocs absents (`loadDemoContent`, jamais
+  d'écrasement) : `packages/shared/shared/content/demo/` (importé par
+  `#bessege/content/demo`), fichiers dans `packages/shared/public/demo/` (servis
+  sous `/demo/…`). Un bloc ajouté au schéma doit avoir sa démo (vérifié par le
+  typage et `test/demo-content.test.ts`). **Jamais de
   mode WAL** : le site lit depuis un volume en lecture seule. Les tests
   d'intégration passent une base temporaire (`setup({ env: { NUXT_DATABASE_PATH } })`).
 

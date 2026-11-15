@@ -1,4 +1,11 @@
-import { FilterXSS, friendlyAttrValue, parseAttr } from 'xss'
+import xss from 'xss'
+import type * as XSS from 'xss'
+
+// `xss` est un module CommonJS : en ESM natif (serveur Nitro compilé), Node ne
+// détecte pas `parseAttr` ni `friendlyAttrValue` comme exports nommés. On passe
+// donc par l'export par défaut, qui contient tout le module à l'exécution (ses
+// typages n'y voient que la fonction `filterXSS`).
+const { FilterXSS, friendlyAttrValue, parseAttr } = xss as unknown as typeof XSS
 
 // Assainisseur du texte mis en forme (CNT-05, CNT-06), appelé à l'enregistrement
 // (schéma `richText()`) et au rendu (composant RichText). Liste blanche : toute
@@ -56,7 +63,7 @@ function filter(html: string, forDisplay: boolean): string {
     return `<a href="${escapeAttribute(href)}"${newTab ? ' target="_blank" rel="noopener"' : ''}>`
   }
 
-  const xss = new FilterXSS({
+  const sanitizer = new FilterXSS({
     whiteList: {},
     stripIgnoreTag: true,
     stripIgnoreTagBody: removedWithContent,
@@ -76,7 +83,7 @@ function filter(html: string, forDisplay: boolean): string {
     },
   })
 
-  const result = xss.process(html)
+  const result = sanitizer.process(html)
   return result + open.reverse().map(close).join('')
 }
 

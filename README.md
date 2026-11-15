@@ -48,6 +48,13 @@ dans Docker (volume `data`), `.data/bessege.sqlite` à la racine du dépôt sans
 Docker. L'admin la crée et applique les migrations à son démarrage ; le site
 l'ouvre en lecture seule.
 
+Au premier démarrage, l'admin remplit la base avec le contenu de démonstration
+(`packages/shared/shared/content/demo/`). Il n'écrase jamais un bloc existant :
+pour revenir à la démo en local, supprimer la base (`docker compose down -v`, ou
+`.data/` sans Docker) et relancer l'admin. Les fichiers de la démo
+(`packages/shared/public/demo/`) se régénèrent avec
+`node packages/shared/scripts/demo-files.ts <dossier des photos>` (voir le script).
+
 Après une modification de `packages/shared/server/database/schema.ts` :
 `pnpm db:generate`, puis versionner la migration créée dans
 `packages/shared/server/database/migrations/` (un test échoue sinon).
