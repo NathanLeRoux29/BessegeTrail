@@ -45,4 +45,22 @@ describe('contraste des couleurs', () => {
   it('THM-02 : texte blanc cassé sur orange reste interdit (sous 4,5:1)', () => {
     expect(contrast(token('background'), token('primary'))).toBeLessThan(4.5)
   })
+
+  // Le voile est un dégradé du vert foncé, d'opacités lues dans le composant. Pire
+  // cas : une photo entièrement blanche sous le texte.
+  it('ACC-06 : le texte de la bannière atteint 4,5:1 sur le voile, même sur une photo blanche', () => {
+    const hero = readFileSync(new URL('../app/components/HomeHero.vue', import.meta.url), 'utf8')
+    const veil = hero.match(/\.hero::before\s*\{[^}]*\}/)?.[0] ?? ''
+    const opacities = [...veil.matchAll(/color-mix\(in srgb, var\(--color-secondary\) (\d+)%, transparent\)/g)].map(match => Number(match[1]) / 100)
+    expect(opacities.length).toBeGreaterThan(1)
+
+    const secondary = token('secondary')
+    const lightest = Math.min(...opacities)
+    const blended = '#' + [1, 3, 5].map((start) => {
+      const channel = Number.parseInt(secondary.slice(start, start + 2), 16)
+      return Math.round(lightest * channel + (1 - lightest) * 255).toString(16).padStart(2, '0')
+    }).join('')
+
+    expect(contrast(token('background'), blended)).toBeGreaterThanOrEqual(4.5)
+  })
 })

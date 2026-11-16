@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { PublishedContent } from '#bessege/content/blocks'
+import { keyFigures } from '#bessege/content/key-figures'
 import { homeSectionKeys, shownSections } from '#bessege/content/sections'
 
 // Page d'accueil (spec 02), rendue par le site avec le contenu publié et par
@@ -11,12 +12,16 @@ const props = defineProps({
 })
 
 const sections = computed(() => shownSections(homeSectionKeys, props.content))
+const figures = computed(() => keyFigures(props.content))
 </script>
 
 <template>
   <div>
-    <!-- Bannière à venir (#19). -->
-    <h1>{{ content.settings.eventName }}</h1>
+    <HomeHero
+      :hero="content['home.hero']"
+      :settings="content.settings"
+    />
+    <KeyFigures :figures="figures" />
     <!-- Contenu propre à chaque section à venir (#21 à #25). -->
     <PageSection
       v-for="section in sections"

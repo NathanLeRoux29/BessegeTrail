@@ -22,7 +22,7 @@ test.describe('sur mobile (375 px)', () => {
     const nav = page.getByRole('navigation', { name: 'Navigation principale' })
 
     await expect(nav).toBeHidden()
-    await expect(page.getByRole('link', { name: /S’inscrire/ })).toBeVisible()
+    await expect(page.locator('header.site-header').getByRole('link', { name: /S’inscrire/ })).toBeVisible()
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
 
     await toggle.click()

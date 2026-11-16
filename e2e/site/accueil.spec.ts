@@ -10,7 +10,7 @@ test('DEP-06 : l’accueil du site s’affiche depuis l’image, sans violation 
 
 test('ACC-02 / ACC-03 : les sections de l’accueil ont leur ancre, un titre h2 et des fonds alternés', async ({ page }) => {
   await page.goto('/')
-  const sections = page.locator('main section')
+  const sections = page.locator('main section.page-section')
 
   await expect(sections).toHaveCount(6)
   expect(await sections.evaluateAll(all => all.map(section => section.id)))
