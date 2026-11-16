@@ -167,6 +167,9 @@ Prévues plus tard : `pnpm content:pull` et `pnpm content:reset` (#74).
 - **Styles :** CSS simple, `<style scoped>` dans les composants. Base commune
   (polices, titres, focus, `prefers-reduced-motion`) dans le layer. Boutons :
   `AppButton` (`primary`, `secondary`, `outline`), jamais un bouton stylé à la main.
+- **Images du contenu :** composant `ResponsiveImage` (`srcset` WebP, dimensions,
+  chargement différé), avec `v-bind` du champ image : `alt=""` pour une image
+  décorative, `priority` pour la bannière seulement (SOC-12, SOC-18).
 - **Accessibilité :** HTML sémantique, un seul `h1` par page, focus visible, cibles
   de 44 px minimum, `prefers-reduced-motion` respecté, texte alternatif obligatoire
   pour toute image porteuse d'information.

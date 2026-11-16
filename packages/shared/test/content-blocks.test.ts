@@ -111,7 +111,7 @@ describe('schémas des blocs de contenu', () => {
     it('CNT-30 : un bloc sans un champ récent est complété par sa valeur par défaut, sans écraser les autres', () => {
       const stored = { visible: true, title: 'L’événement', text: '<p>Un trail au cœur des Cévennes.</p>' }
 
-      expect(blockSchemas['home.presentation'].parse(stored)).toEqual({ ...stored, image: { src: '', alt: '' } })
+      expect(blockSchemas['home.presentation'].parse(stored)).toEqual({ ...stored, image: { src: '', alt: '', width: 0, height: 0 } })
     })
 
     it('CNT-30 : un groupe de champs absent est complété champ par champ', () => {

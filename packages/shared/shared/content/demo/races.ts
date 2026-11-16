@@ -15,9 +15,9 @@ function race(slug: string, gpxSize: number, content: RaceText): RaceDemo {
   return {
     visible: true,
     ...content,
-    image: { src: photo(`epreuve-${slug}`) },
-    route: { src: photo(`trace-${slug}`), alt: `Tracé du parcours ${name}, au départ de Bessèges` },
-    profile: { src: photo(`profil-${slug}`), alt: `Profil du parcours ${name} : ${distance} km et ${elevationGain} m de dénivelé positif` },
+    image: photo(`epreuve-${slug}`),
+    route: { ...photo(`trace-${slug}`, 1120), alt: `Tracé du parcours ${name}, au départ de Bessèges` },
+    profile: { ...photo(`profil-${slug}`, 533), alt: `Profil du parcours ${name} : ${distance} km et ${elevationGain} m de dénivelé positif` },
     gpx: download(`${slug}.gpx`, gpxSize),
     resultsUrl: '',
   }

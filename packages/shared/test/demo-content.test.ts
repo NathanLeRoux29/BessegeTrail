@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 import { describe, expect, it } from 'vitest'
 import { blockKeys, blockSchemas, type BlockContent } from '../shared/content/blocks'
 import { demoContent } from '../shared/content/demo'
@@ -67,6 +68,18 @@ describe('contenu de démonstration', () => {
 
     expect(photos.length).toBeGreaterThan(20)
     expect(incomplete).toEqual([])
+  })
+
+  it('SOC-12 : chaque photo indique les dimensions de sa version de 1600 px', async () => {
+    const photos = allObjects.map(({ object }) => object).filter(object => typeof object.src === 'string' && object.src.endsWith('.webp'))
+    const wrong: string[] = []
+    for (const photo of photos) {
+      const { width, height } = await sharp(publicDir + (photo.src as string).replace(/-960\.webp$/, '-1600.webp')).metadata()
+      if (photo.width !== width || photo.height !== height) wrong.push(`${photo.src as string} : ${String(photo.width)}×${String(photo.height)} au lieu de ${width}×${height}`)
+    }
+
+    expect(photos.length).toBeGreaterThan(20)
+    expect(wrong).toEqual([])
   })
 
   it('CNT-24 : chaque image porteuse d’information a un texte alternatif', () => {

@@ -51,15 +51,23 @@ export const localPath = z.string()
   .regex(/^(\/(?!\/)[^\s\\]*)?$/, 'Le fichier doit être déposé sur le site')
   .default('')
 
+// Dimensions en pixels de la plus grande version d'une image, relevées à l'envoi :
+// attributs width et height du rendu (SOC-12). 0 = inconnues.
+const pixels = z.number().int().nonnegative().default(0)
+
 // Image porteuse d'information, avec son texte alternatif.
 export const image = z.object({
   src: localPath,
   alt: text(150),
+  width: pixels,
+  height: pixels,
 }).prefault({})
 
 // Image décorative : pas de texte alternatif (alt="" au rendu).
 export const decorativeImage = z.object({
   src: localPath,
+  width: pixels,
+  height: pixels,
 }).prefault({})
 
 // Fichier à télécharger (GPX, PDF), avec sa taille en octets (INF-09).

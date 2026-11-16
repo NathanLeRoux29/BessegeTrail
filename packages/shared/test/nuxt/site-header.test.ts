@@ -70,7 +70,7 @@ describe('SiteHeader', () => {
   })
 
   it('un logo sans fichier n’affiche pas d’image, le titre reste', async () => {
-    const wrapper = await mountHeader({ header: { ...header, logo: { src: '', alt: '' } } })
+    const wrapper = await mountHeader({ header: { ...header, logo: { ...header.logo, src: '' } } })
 
     expect(wrapper.find('a.brand img').exists()).toBe(false)
     expect(wrapper.get('a.brand').text()).toBe('Trail de Bessèges')

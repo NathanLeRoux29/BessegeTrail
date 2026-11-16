@@ -3,9 +3,10 @@
 // public/demo/CREDITS.md.
 
 // Image en WebP, déclinée en 480, 960 et 1600 px de large : `src` désigne la
-// version 960, les autres s'en déduisent (SOC-12).
-export function photo(name: string): string {
-  return `/demo/images/${name}-960.webp`
+// version 960, les autres s'en déduisent. Dimensions de la version 1600 (SOC-12),
+// vérifiées par un test : photos en 3:2 par défaut.
+export function photo(name: string, height = 1067) {
+  return { src: `/demo/images/${name}-960.webp`, width: 1600, height }
 }
 
 export function logo(name: string): string {

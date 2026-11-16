@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { externalUrl, file, image, localPath, menuTarget } from '../shared/content/fields'
+import { decorativeImage, externalUrl, file, image, localPath, menuTarget } from '../shared/content/fields'
 
 describe('lien externe (CNT-04)', () => {
   it.each([
@@ -61,8 +61,16 @@ describe('chemin d’un fichier du site (images, GPX, PDF)', () => {
     expect(localPath.safeParse(path).success).toBe(false)
   })
 
-  it('une image sans valeur est complétée par une source et un texte alternatif vides', () => {
-    expect(image.parse(undefined)).toEqual({ src: '', alt: '' })
+  it('CNT-30 : une image sans valeur est complétée par une source, un texte alternatif et des dimensions vides', () => {
+    expect(image.parse(undefined)).toEqual({ src: '', alt: '', width: 0, height: 0 })
+    expect(decorativeImage.parse(undefined)).toEqual({ src: '', width: 0, height: 0 })
+  })
+
+  it('SOC-12 : une image garde ses dimensions en pixels, pour des attributs width et height explicites', () => {
+    expect(image.parse({ src: '/uploads/a-960.webp', alt: 'Départ', width: 1600, height: 1067 }))
+      .toMatchObject({ width: 1600, height: 1067 })
+    expect(image.safeParse({ src: '/uploads/a-960.webp', alt: 'Départ', width: -1, height: 1067 }).success).toBe(false)
+    expect(decorativeImage.safeParse({ src: '/uploads/a-960.webp', width: 1600, height: 10.5 }).success).toBe(false)
   })
 
   it('une image dont la source n’est pas un chemin du site est refusée', () => {

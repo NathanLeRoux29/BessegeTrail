@@ -110,7 +110,9 @@ dans `public/demo/CREDITS.md`.
 
 - **CNT-19** — Images acceptées : JPEG, PNG, WebP, ≤ 10 Mo. Elles sont converties
   en WebP en 3 largeurs (480, 960, 1600 px, sans agrandissement), sans métadonnées
-  EXIF (dont la position GPS).
+  EXIF (dont la position GPS). Les trois fichiers ont le même nom suivi de `-480`,
+  `-960` ou `-1600` ; le contenu désigne la version 960 et enregistre les
+  dimensions de la plus grande (attributs `width` et `height`, SOC-12).
 - **CNT-20** — Logos acceptés : PNG, WebP ou SVG. Les SVG sont assainis (aucun
   script ni lien externe).
 - **CNT-21** — PDF accepté pour le règlement, ≤ 10 Mo.
