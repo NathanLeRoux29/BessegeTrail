@@ -53,4 +53,13 @@ describe('HomeHero', () => {
     expect(wrapper.find('.hero-meta').exists()).toBe(false)
     expect(wrapper.find('.eyebrow').exists()).toBe(false)
   })
+
+  it('ACC-11 : le compte à rebours masqué n’est pas rendu, le reste de la bannière si', async () => {
+    const shown = await mountHero()
+    const hidden = await mountHero({ hero: { showCountdown: false } })
+
+    expect(shown.find('.hero-countdown').exists()).toBe(true)
+    expect(hidden.find('.hero-countdown').exists()).toBe(false)
+    expect(hidden.get('h1').text()).toBe('Trail de Bessèges')
+  })
 })

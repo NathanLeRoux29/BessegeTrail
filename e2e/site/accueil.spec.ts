@@ -22,3 +22,13 @@ test('ACC-02 / ACC-03 : les sections de l’accueil ont leur ancre, un titre h2 
   expect(new Set(backgrounds).size).toBe(2)
   expect(backgrounds.every((color, index) => index === 0 || color !== backgrounds[index - 1])).toBe(true)
 })
+
+test.describe('sans JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('ACC-08 : le compte à rebours (ou le texte d’après le départ) est rendu par le serveur', async ({ page }) => {
+    await page.goto('/')
+
+    await expect(page.locator('.hero-countdown')).toContainText(/Départ dans|Merci/)
+  })
+})

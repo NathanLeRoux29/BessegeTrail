@@ -61,7 +61,8 @@ ACC-18 à ACC-20 et ACC-25 à ACC-27 y ont été déplacés (INF-07 à INF-12).
 - **ACC-06** — Le texte reste lisible sur l'image grâce à un voile sombre
   (contraste ≥ 4,5:1 entre le texte et le voile).
 - **ACC-07** — Le compte à rebours affiche les jours, heures et minutes restants
-  jusqu'à la date et l'heure de départ définies dans les paramètres généraux.
+  jusqu'à la date et l'heure de départ définies dans les paramètres généraux
+  (heure de Paris, saisie sans fuseau).
 - **ACC-08** — Le compte à rebours est calculé côté serveur au premier affichage
   (visible sans JavaScript), puis mis à jour chaque minute côté client.
 - **ACC-09** — Le compte à rebours n'est pas annoncé en continu par les lecteurs
