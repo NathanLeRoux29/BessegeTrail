@@ -31,7 +31,8 @@ responsive, performance, accessibilité et référencement.
   section de l'accueil, la page Infos pratiques ou une de ses sections (spec 10),
   une page d'épreuve, ou une URL externe. Une URL externe
   s'ouvre dans un nouvel onglet avec `rel="noopener"`.
-- **SOC-03** — Un élément du menu qui cible une section masquée n'est pas affiché.
+- **SOC-03** — Un élément du menu qui cible une section masquée n'est pas affiché,
+  ni une section de liste vide, qui n'est pas rendue (ACC-04).
 - **SOC-04** — En dessous de 1080 px de large (largeur sous laquelle le menu ne
   tient plus sur une ligne), le menu est replié derrière un bouton « Menu »
   accessible (`aria-expanded`, fermeture avec Échap, focus géré). Le bouton

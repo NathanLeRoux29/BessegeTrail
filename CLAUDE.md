@@ -46,6 +46,11 @@ docs/             Cadrage, specs, maquettes, exploitation.
   jamais la base. Les pages du site le prennent dans `usePublishedContent()`
   (route `GET /api/content`, versions publiées seulement, sans cache, CNT-08 et
   CNT-11) ; l'aperçu de l'admin leur passe les brouillons.
+- Une page de sections (accueil : `HomePage`) est un composant du layer qui
+  reçoit tout le contenu ; la page du site ne fait que le lui passer. Les sections
+  à rendre, leur ancre et leur fond alterné viennent de `shownSections`
+  (`shared/content/sections.ts`, ACC-01 à ACC-04), leur cadre (`id`, `h2`, fond)
+  de `PageSection`.
 - Un bloc de contenu = une clé + un schéma Zod dans `packages/shared`, utilisé à la
   fois pour valider (admin) et pour typer le rendu (site). Schémas dans
   `packages/shared/shared/content/` (`blocks.ts`, types de champs dans

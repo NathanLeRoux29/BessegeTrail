@@ -1,14 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { blockKeys, blockSchemas, type PublishedContent } from '../shared/content/blocks'
+import { blockKeys } from '../shared/content/blocks'
 import { hiddenMenuTargets } from '../shared/content/menu'
-
-// Contenu où toutes les sections masquables sont visibles, sauf `hidden`.
-function contentWith(hidden: string[] = []): PublishedContent {
-  return Object.fromEntries(blockKeys.map((key) => {
-    const block = blockSchemas[key].parse({}) as Record<string, unknown>
-    return [key, 'visible' in block ? { ...block, visible: !hidden.includes(key) } : block]
-  })) as PublishedContent
-}
+import { contentWith } from './fixtures'
 
 describe('hiddenMenuTargets', () => {
   it('SOC-03 : quand tout est visible, aucune cible n’est masquée', () => {
@@ -33,5 +26,11 @@ describe('hiddenMenuTargets', () => {
     expect(allHidden).not.toContain('/#epreuves')
     expect(allHidden).not.toContain('/infos-pratiques')
     expect(allHidden).toHaveLength(12)
+  })
+
+  it('SOC-03 / ACC-04 : une section de liste vide, qui n’est pas rendue, masque son ancre', () => {
+    const content = contentWith([], { 'home.galerie': { photos: [] }, 'infos.faq': { items: [] } })
+
+    expect(hiddenMenuTargets(content)).toEqual(['/#galerie', '/infos-pratiques#faq'])
   })
 })

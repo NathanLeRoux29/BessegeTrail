@@ -1,5 +1,6 @@
 import type { BlockKey, PublishedContent } from './blocks'
 import { internalTargets } from './fields'
+import { isSectionShown } from './sections'
 
 // Bloc affiché par une cible interne du menu : section de l'accueil (/#galerie),
 // section des Infos pratiques (/infos-pratiques#faq) ou page d'épreuve
@@ -19,13 +20,13 @@ function targetBlock(target: string): BlockKey | undefined {
   return undefined
 }
 
-// Cibles du menu qui mènent à une section ou une épreuve masquée (SOC-03) : les
-// éléments du menu qui les visent ne sont pas affichés. Calculé à partir du
-// contenu publié sur le site, des brouillons dans l'aperçu de l'admin.
+// Cibles du menu qui mènent à une section ou une épreuve masquée (SOC-03), ou à
+// une section de liste vide, qui n'est pas rendue (ACC-04) : les éléments du menu
+// qui les visent ne sont pas affichés. Calculé à partir du contenu publié sur le
+// site, des brouillons dans l'aperçu de l'admin.
 export function hiddenMenuTargets(content: PublishedContent): string[] {
   return internalTargets.filter((target) => {
     const key = targetBlock(target)
-    const block = key ? content[key] as { visible?: boolean } : undefined
-    return block?.visible === false
+    return key !== undefined && !isSectionShown(key, content)
   })
 }
