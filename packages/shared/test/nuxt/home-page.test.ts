@@ -58,4 +58,11 @@ describe('HomePage', () => {
 
     expect(wrapper.findAll('#galerie ul.gallery img')).toHaveLength(6)
   })
+
+  it('ACC-24 / ACC-30 : les sections Bénévoles et Contact affichent leur bouton et l’e-mail', async () => {
+    const wrapper = await mountSuspended(HomePage, { props: { content: contentWith() } })
+
+    expect(wrapper.find('#benevoles a.button--primary').exists()).toBe(true)
+    expect(wrapper.get('#contact a.contact-mail').attributes('href')).toBe('mailto:contact@trail-besseges.fr')
+  })
 })

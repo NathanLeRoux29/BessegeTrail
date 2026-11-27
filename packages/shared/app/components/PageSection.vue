@@ -14,6 +14,10 @@ const props = defineProps({
   eyebrow: { type: String, default: '' },
   // Texte d'introduction sous le titre, facultatif.
   intro: { type: String, default: '' },
+  // Carte vert foncé, image à gauche (Bénévoles).
+  panel: { type: Boolean, default: false },
+  // Titre et contenu centrés (Contact).
+  centered: { type: Boolean, default: false },
 })
 
 const titleId = computed(() => `titre-${props.anchor}`)
@@ -25,27 +29,35 @@ const titleId = computed(() => `titre-${props.anchor}`)
     :class="['page-section', `page-section--${background}`]"
     :aria-labelledby="titleId"
   >
-    <div :class="['page-section__inner', { 'page-section__inner--split': $slots.aside }]">
-      <div>
-        <div class="section-head">
-          <span
-            v-if="eyebrow"
-            class="eyebrow"
-          >{{ eyebrow }}</span>
-          <h2 :id="titleId">
-            {{ title }}
-          </h2>
-          <p v-if="intro">
-            {{ intro }}
-          </p>
-        </div>
-        <slot />
-      </div>
+    <div class="page-section__inner">
       <div
-        v-if="$slots.aside"
-        class="page-section__aside"
+        :class="['page-section__layout', {
+          'page-section__layout--split': $slots.aside,
+          'page-section__layout--panel': panel,
+          'page-section__layout--centered': centered,
+        }]"
       >
-        <slot name="aside" />
+        <div class="page-section__main">
+          <div class="section-head">
+            <span
+              v-if="eyebrow"
+              class="eyebrow"
+            >{{ eyebrow }}</span>
+            <h2 :id="titleId">
+              {{ title }}
+            </h2>
+            <p v-if="intro">
+              {{ intro }}
+            </p>
+          </div>
+          <slot />
+        </div>
+        <div
+          v-if="$slots.aside"
+          class="page-section__aside"
+        >
+          <slot name="aside" />
+        </div>
       </div>
     </div>
   </section>
@@ -65,15 +77,49 @@ const titleId = computed(() => `titre-${props.anchor}`)
 }
 
 /* ACC-13 : texte et image côte à côte sur ordinateur, image dessous sur mobile. */
-.page-section__inner--split {
+.page-section__layout--split {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: clamp(32px, 6vw, 80px);
   align-items: center;
 }
 
+/* Carte vert foncé, image à gauche et collée aux bords (Bénévoles). */
+.page-section__layout--panel {
+  overflow: hidden;
+  color: var(--color-background);
+  background: var(--color-secondary);
+  border-radius: calc(var(--radius) * 1.6);
+}
+
+.page-section__layout--panel.page-section__layout--split {
+  grid-template-columns: 1fr 1.2fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+.page-section__layout--panel .page-section__aside { order: -1; }
+
+.page-section__layout--panel .page-section__main { padding: clamp(28px, 5vw, 56px); }
+
+.page-section__layout--panel .section-head {
+  margin-bottom: 20px;
+}
+
+.page-section__layout--panel h2,
+.page-section__layout--panel .eyebrow { color: var(--color-background); }
+
+/* Titre et contenu centrés (Contact). */
+.page-section__layout--centered { text-align: center; }
+
+.page-section__layout--centered .section-head {
+  justify-items: center;
+  margin-inline: auto;
+}
+
 @media (max-width: 860px) {
-  .page-section__inner--split { grid-template-columns: 1fr; }
+  .page-section__layout--split,
+  .page-section__layout--panel.page-section__layout--split { grid-template-columns: 1fr; }
 }
 
 .section-head {

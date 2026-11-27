@@ -48,7 +48,20 @@ const races = computed(() => visibleRaces(props.content))
         :anchor="section.anchor"
         :background="section.background"
       />
-      <!-- Contenu propre aux autres sections à venir (#24 et #25). -->
+      <VolunteerSection
+        v-else-if="section.key === 'home.benevoles'"
+        :block="content['home.benevoles']"
+        :anchor="section.anchor"
+        :background="section.background"
+      />
+      <ContactSection
+        v-else-if="section.key === 'home.contact'"
+        :block="content['home.contact']"
+        :settings="content.settings"
+        :anchor="section.anchor"
+        :background="section.background"
+      />
+      <!-- Partenaires à venir (#25). -->
       <PageSection
         v-else
         :anchor="section.anchor"

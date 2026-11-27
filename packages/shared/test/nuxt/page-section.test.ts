@@ -32,7 +32,7 @@ describe('PageSection', () => {
     })
     const without = await mountSuspended(PageSection, { props: { anchor: 'contact', title: 'Contact' } })
 
-    expect(withAside.get('.page-section__inner').classes()).toContain('page-section__inner--split')
+    expect(withAside.get('.page-section__layout').classes()).toContain('page-section__layout--split')
     expect(withAside.get('.page-section__aside').text()).toBe('Image')
     expect(without.find('.page-section__aside').exists()).toBe(false)
   })
@@ -43,5 +43,13 @@ describe('PageSection', () => {
 
     expect(withIntro.get('.section-head p').text()).toBe('Cinq formats.')
     expect(without.find('.section-head p').exists()).toBe(false)
+  })
+
+  it('ACC-24 / ACC-30 : la section peut être un panneau (Bénévoles) ou centrée (Contact)', async () => {
+    const panel = await mountSuspended(PageSection, { props: { anchor: 'benevoles', title: 'Bénévoles', panel: true } })
+    const centered = await mountSuspended(PageSection, { props: { anchor: 'contact', title: 'Contact', centered: true } })
+
+    expect(panel.get('.page-section__layout').classes()).toContain('page-section__layout--panel')
+    expect(centered.get('.page-section__layout').classes()).toContain('page-section__layout--centered')
   })
 })
