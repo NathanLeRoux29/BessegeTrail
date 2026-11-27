@@ -22,13 +22,24 @@ const figures = computed(() => keyFigures(props.content))
       :settings="content.settings"
     />
     <KeyFigures :figures="figures" />
-    <!-- Contenu propre à chaque section à venir (#21 à #25). -->
-    <PageSection
+    <template
       v-for="section in sections"
       :key="section.key"
-      :anchor="section.anchor"
-      :title="content[section.key].title"
-      :background="section.background"
-    />
+    >
+      <PresentationSection
+        v-if="section.key === 'home.presentation'"
+        :block="content['home.presentation']"
+        :anchor="section.anchor"
+        :background="section.background"
+        :edition="content.settings.edition"
+      />
+      <!-- Contenu propre aux autres sections à venir (#22 à #25). -->
+      <PageSection
+        v-else
+        :anchor="section.anchor"
+        :title="content[section.key].title"
+        :background="section.background"
+      />
+    </template>
   </div>
 </template>

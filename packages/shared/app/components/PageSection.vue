@@ -4,7 +4,8 @@ import type { SectionBackground } from '#bessege/content/sections'
 
 // Cadre commun des sections de l'accueil et des Infos pratiques : ancre (id),
 // titre h2 modifiable (ACC-03) et fond alterné (ACC-02), calculés par
-// shownSections. Le contenu propre à la section passe par le slot.
+// shownSections. Le contenu propre à la section passe par le slot ; le slot
+// `aside` (une image) forme une seconde colonne, qui passe dessous sur mobile.
 const props = defineProps({
   anchor: { type: String, required: true },
   title: { type: String, required: true },
@@ -22,17 +23,25 @@ const titleId = computed(() => `titre-${props.anchor}`)
     :class="['page-section', `page-section--${background}`]"
     :aria-labelledby="titleId"
   >
-    <div class="page-section__inner">
-      <div class="section-head">
-        <span
-          v-if="eyebrow"
-          class="eyebrow"
-        >{{ eyebrow }}</span>
-        <h2 :id="titleId">
-          {{ title }}
-        </h2>
+    <div :class="['page-section__inner', { 'page-section__inner--split': $slots.aside }]">
+      <div>
+        <div class="section-head">
+          <span
+            v-if="eyebrow"
+            class="eyebrow"
+          >{{ eyebrow }}</span>
+          <h2 :id="titleId">
+            {{ title }}
+          </h2>
+        </div>
+        <slot />
       </div>
-      <slot />
+      <div
+        v-if="$slots.aside"
+        class="page-section__aside"
+      >
+        <slot name="aside" />
+      </div>
     </div>
   </section>
 </template>
@@ -48,6 +57,18 @@ const titleId = computed(() => `titre-${props.anchor}`)
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--gutter);
+}
+
+/* ACC-13 : texte et image côte à côte sur ordinateur, image dessous sur mobile. */
+.page-section__inner--split {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .page-section__inner--split { grid-template-columns: 1fr; }
 }
 
 .section-head {

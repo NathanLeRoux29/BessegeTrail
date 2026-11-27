@@ -40,4 +40,10 @@ describe('HomePage', () => {
 
     expect(wrapper.find('#galerie').exists()).toBe(false)
   })
+
+  it('ACC-12 : la section Présentation affiche son texte mis en forme', async () => {
+    const wrapper = await mountSuspended(HomePage, { props: { content: contentWith() } })
+
+    expect(wrapper.get('#presentation .rich-text').text()).toContain('première édition')
+  })
 })

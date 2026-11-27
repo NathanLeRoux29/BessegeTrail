@@ -32,3 +32,15 @@ test.describe('sans JavaScript', () => {
     await expect(page.locator('.hero-countdown')).toContainText(/Départ dans|Merci/)
   })
 })
+
+for (const [width, layout] of [[1280, 'à côté du texte'], [375, 'sous le texte']] as const) {
+  test(`ACC-13 : à ${width} px, l’image de la présentation est ${layout}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/')
+    const text = await page.locator('#presentation .rich-text').boundingBox()
+    const image = await page.locator('#presentation img').boundingBox()
+
+    if (width === 1280) expect(image!.x).toBeGreaterThanOrEqual(text!.x + text!.width)
+    else expect(image!.y).toBeGreaterThanOrEqual(text!.y + text!.height)
+  })
+}

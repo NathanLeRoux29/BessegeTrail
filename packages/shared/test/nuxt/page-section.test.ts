@@ -24,4 +24,16 @@ describe('PageSection', () => {
     expect(neutral.get('section').classes()).toContain('page-section--neutral')
     expect(light.get('section').classes()).toContain('page-section--background')
   })
+
+  it('ACC-13 : un contenu à côté (image) forme une seconde colonne, absente sinon', async () => {
+    const withAside = await mountSuspended(PageSection, {
+      props: { anchor: 'presentation', title: 'L’événement' },
+      slots: { default: () => 'Texte', aside: () => 'Image' },
+    })
+    const without = await mountSuspended(PageSection, { props: { anchor: 'contact', title: 'Contact' } })
+
+    expect(withAside.get('.page-section__inner').classes()).toContain('page-section__inner--split')
+    expect(withAside.get('.page-section__aside').text()).toBe('Image')
+    expect(without.find('.page-section__aside').exists()).toBe(false)
+  })
 })
