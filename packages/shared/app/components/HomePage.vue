@@ -61,11 +61,10 @@ const races = computed(() => visibleRaces(props.content))
         :anchor="section.anchor"
         :background="section.background"
       />
-      <!-- Partenaires à venir (#25). -->
-      <PageSection
-        v-else
+      <PartnersSection
+        v-else-if="section.key === 'home.partenaires'"
+        :block="content['home.partenaires']"
         :anchor="section.anchor"
-        :title="content[section.key].title"
         :background="section.background"
       />
     </template>
