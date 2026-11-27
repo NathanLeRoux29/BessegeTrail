@@ -52,4 +52,10 @@ describe('HomePage', () => {
 
     expect(wrapper.findAll('#epreuves .race-card')).toHaveLength(4)
   })
+
+  it('ACC-21 : la galerie affiche ses photos', async () => {
+    const wrapper = await mountSuspended(HomePage, { props: { content: contentWith() } })
+
+    expect(wrapper.findAll('#galerie ul.gallery img')).toHaveLength(6)
+  })
 })

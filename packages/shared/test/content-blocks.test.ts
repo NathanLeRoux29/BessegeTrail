@@ -47,6 +47,13 @@ describe('schémas des blocs de contenu', () => {
       expect(blockSchemas['home.presentation'].safeParse({ title: '   ' }).success).toBe(false)
     })
 
+    it('ACC-23 : la galerie accepte jusqu’à 30 photos, pas une de plus', () => {
+      const photos = (n: number) => Array.from({ length: n }, (_, i) => ({ src: `/uploads/${i}-960.webp`, alt: `Photo ${i}` }))
+
+      expect(blockSchemas['home.galerie'].safeParse({ photos: photos(30) }).success).toBe(true)
+      expect(blockSchemas['home.galerie'].safeParse({ photos: photos(31) }).success).toBe(false)
+    })
+
     it('CNT-03 : la galerie refuse une 31e photo, la FAQ une 31e question et Sur place un 10e bloc', () => {
       const photos = (n: number) => Array.from({ length: n }, (_, i) => ({ src: `/uploads/${i}.webp`, alt: `Photo ${i}` }))
       const questions = (n: number) => Array.from({ length: n }, (_, i) => ({ question: `Question ${i} ?`, answer: '<p>Oui.</p>' }))
