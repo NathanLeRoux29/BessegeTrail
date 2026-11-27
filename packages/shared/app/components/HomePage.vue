@@ -2,6 +2,7 @@
 import type { PropType } from 'vue'
 import type { PublishedContent } from '#bessege/content/blocks'
 import { keyFigures } from '#bessege/content/key-figures'
+import { visibleRaces } from '#bessege/content/races'
 import { homeSectionKeys, shownSections } from '#bessege/content/sections'
 
 // Page d'accueil (spec 02), rendue par le site avec le contenu publié et par
@@ -13,6 +14,7 @@ const props = defineProps({
 
 const sections = computed(() => shownSections(homeSectionKeys, props.content))
 const figures = computed(() => keyFigures(props.content))
+const races = computed(() => visibleRaces(props.content))
 </script>
 
 <template>
@@ -33,7 +35,14 @@ const figures = computed(() => keyFigures(props.content))
         :background="section.background"
         :edition="content.settings.edition"
       />
-      <!-- Contenu propre aux autres sections à venir (#22 à #25). -->
+      <RacesSection
+        v-else-if="section.key === 'home.epreuves'"
+        :block="content['home.epreuves']"
+        :races="races"
+        :anchor="section.anchor"
+        :background="section.background"
+      />
+      <!-- Contenu propre aux autres sections à venir (#23 à #25). -->
       <PageSection
         v-else
         :anchor="section.anchor"

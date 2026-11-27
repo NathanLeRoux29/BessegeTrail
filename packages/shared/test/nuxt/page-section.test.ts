@@ -36,4 +36,12 @@ describe('PageSection', () => {
     expect(withAside.get('.page-section__aside').text()).toBe('Image')
     expect(without.find('.page-section__aside').exists()).toBe(false)
   })
+
+  it('ACC-14 : un texte d’introduction facultatif suit le titre', async () => {
+    const withIntro = await mountSuspended(PageSection, { props: { anchor: 'epreuves', title: 'Les épreuves', intro: 'Cinq formats.' } })
+    const without = await mountSuspended(PageSection, { props: { anchor: 'epreuves', title: 'Les épreuves' } })
+
+    expect(withIntro.get('.section-head p').text()).toBe('Cinq formats.')
+    expect(without.find('.section-head p').exists()).toBe(false)
+  })
 })

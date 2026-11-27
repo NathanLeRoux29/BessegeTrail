@@ -44,3 +44,15 @@ for (const [width, layout] of [[1280, 'à côté du texte'], [375, 'sous le text
     else expect(image!.y).toBeGreaterThanOrEqual(text!.y + text!.height)
   })
 }
+
+for (const [width, columns] of [[1280, 'plusieurs colonnes'], [375, 'une colonne']] as const) {
+  test(`ACC-17 : à ${width} px, les cartes des épreuves sont sur ${columns}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/')
+    const lefts = await page.locator('#epreuves .race-card').evaluateAll(cards => cards.map(card => Math.round(card.getBoundingClientRect().left)))
+
+    expect(lefts).toHaveLength(5)
+    if (width === 1280) expect(new Set(lefts).size).toBeGreaterThan(1)
+    else expect(new Set(lefts).size).toBe(1)
+  })
+}

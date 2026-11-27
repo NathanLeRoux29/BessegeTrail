@@ -46,4 +46,10 @@ describe('HomePage', () => {
 
     expect(wrapper.get('#presentation .rich-text').text()).toContain('première édition')
   })
+
+  it('ACC-14 / ACC-16 : la section Les épreuves a une carte par épreuve visible', async () => {
+    const wrapper = await mountSuspended(HomePage, { props: { content: contentWith(['race.marche-solidaire']) } })
+
+    expect(wrapper.findAll('#epreuves .race-card')).toHaveLength(4)
+  })
 })

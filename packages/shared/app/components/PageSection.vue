@@ -12,6 +12,8 @@ const props = defineProps({
   background: { type: String as PropType<SectionBackground>, default: 'background' },
   // Petit libellé au-dessus du titre (« En images »…), facultatif.
   eyebrow: { type: String, default: '' },
+  // Texte d'introduction sous le titre, facultatif.
+  intro: { type: String, default: '' },
 })
 
 const titleId = computed(() => `titre-${props.anchor}`)
@@ -33,6 +35,9 @@ const titleId = computed(() => `titre-${props.anchor}`)
           <h2 :id="titleId">
             {{ title }}
           </h2>
+          <p v-if="intro">
+            {{ intro }}
+          </p>
         </div>
         <slot />
       </div>
@@ -81,6 +86,11 @@ const titleId = computed(() => `titre-${props.anchor}`)
 .section-head h2 {
   margin: 0;
   font-size: clamp(2.4rem, 5vw, 3.6rem);
+}
+
+.section-head p {
+  margin: 2px 0 0;
+  font-size: 1.125rem;
 }
 
 .eyebrow {
